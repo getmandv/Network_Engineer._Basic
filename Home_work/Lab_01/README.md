@@ -11,29 +11,29 @@
 1. [Создайте сеть согласно топологии](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#1-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%B9%D1%82%D0%B5-%D1%81%D0%B5%D1%82%D1%8C-%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BD%D0%BE-%D1%82%D0%BE%D0%BF%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8)
 2. [Проверьте настройки коммутатора по умолчанию](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#2-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D1%8C%D1%82%D0%B5-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E)
 ###  1. Создайте сеть согласно топологии.
-- Подсоедините консольный кабель, как показано в топологии. На данном этапе не подключайте кабель Ethernet компьютера PC-A.
+a. Подсоедините консольный кабель, как показано в топологии. На данном этапе не подключайте кабель Ethernet компьютера PC-A.
 
 ![](./images/lab_01_fig_02.png)
 
-- Установите консольное подключение к коммутатору с компьютера PC-A с помощью Tera Term или другой программы эмуляции терминала.
+b. Установите консольное подключение к коммутатору с компьютера PC-A с помощью Tera Term или другой программы эмуляции терминала.
 
 ![](./images/lab_01_fig_03.png)
 
 - Почему нужно использовать консольное подключение для первоначальной настройки коммутатора?
 
- Потоvу что к не сконфигурированному коммутатору нельзя подключиться иначе.
+ Потому что к не сконфигурированному коммутатору нельзя подключиться иначе.
  
 - Почему нельзя подключиться к коммутатору через Telnet или SSH?
 
 Потому что у коммутатора не сконфигурирован SVI.
 ###  2. Проверьте настройки коммутатора по умолчанию.
-- Введите команду enable, чтобы войти в привилегированный режим EXEC.
+a. Введите команду enable, чтобы войти в привилегированный режим EXEC.
 ```
 Switch>
 Switch>enable
 Switch#
 ```
-- Убедитесь, что на коммутаторе находится пустой файл конфигурации по умолчанию, с помощью команды show running-config привилегированного режима EXEC.
+b. Изучите текущий файл running configuration.
 ```
 Switch#show running-config 
 Building configuration...
@@ -150,7 +150,7 @@ line vty 0 4
 line vty 5 15
  login
 ```
-- Изучите файл загрузочной конфигурации (startup configuration), который содержится в энергонезависимом ОЗУ (NVRAM).
+c. Изучите файл загрузочной конфигурации (startup configuration), который содержится в энергонезависимом ОЗУ (NVRAM).
 ```
 Switch#show startup-config 
 startup-config is not present
@@ -159,7 +159,8 @@ Switch#
 - Почему появляется это сообщение?
 
 Потому что этого файла в энергонезависимой памяти ещё не существует, так как я не сохранял никаких изменений внесённых в runing-config
-- Изучите характеристики SVI для VLAN 1.
+
+d. Изучите характеристики SVI для VLAN 1.
 ```
 Switch#show interface vlan1
 Vlan1 is administratively down, line protocol is down
@@ -190,11 +191,12 @@ Switch#
 Нет.
 - Какой MAC-адрес имеет SVI?
 
-Пока что никакой, интерфейс выключен.
+Пока что никакой, интерфейс выключен. После включения ему будет назначен базовый MAC-адрес коммутатора.
 - Данный интерфейс включен?
 
 Нет, интерфейс выключен.
-- Изучите IP-свойства интерфейса SVI сети VLAN 1.
+
+e. Изучите IP-свойства интерфейса SVI сети VLAN 1.
 ```
 Switch#show ip interface vlan1
 Vlan1 is administratively down, line protocol is down
@@ -205,9 +207,22 @@ Switch#
 - Какие выходные данные вы видите?
 
 То, что интерфейс выключен.
-- Подсоедините кабель Ethernet компьютера PC-A к порту 6 на коммутаторе и изучите IP-свойства интерфейса SVI сети VLAN 1. Дождитесь согласования параметров скорости и дуплекса между коммутатором и ПК.
-![](./images/lab_01_fig_05.png)
-- Изучите сведения о версии ОС Cisco IOS на коммутаторе.
+
+f. Подсоедините кабель Ethernet компьютера PC-A к порту 6 на коммутаторе и изучите IP-свойства интерфейса SVI сети VLAN 1. Дождитесь согласования параметров скорости и дуплекса между коммутатором и ПК.
+
+![](./images/lab_01_fig_04.png)
+- Какие выходные данные вы видите?
+
+6 интерфейс коммутатора включился.
+```
+Switch#
+%LINK-5-CHANGED: Interface FastEthernet0/6, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/6, changed state to up
+
+Switch#
+```
+g. Изучите сведения о версии ОС Cisco IOS на коммутаторе.
 ```
 Switch#show version 
 Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)
@@ -274,3 +289,52 @@ Configuration register is 0xF
 
 Switch#
 ```
+- Под управлением какой версии ОС Cisco IOS работает коммутатор?
+```
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)
+```
+- Как называется файл образа системы?
+```
+System image file is "flash:c2960-lanbasek9-mz.150-2.SE4.bin"
+```
+h. Изучите свойства по умолчанию интерфейса FastEthernet, который используется компьютером PC-A.
+```
+Switch#show interfaces f0/6
+FastEthernet0/6 is up, line protocol is up (connected)
+  Hardware is Lance, address is 000c.85e3.c106 (bia 000c.85e3.c106)
+ BW 100000 Kbit, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 100Mb/s
+  input flow-control is off, output flow-control is off
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     956 packets input, 193351 bytes, 0 no buffer
+     Received 956 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 watchdog, 0 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     2357 packets output, 263570 bytes, 0 underruns
+     0 output errors, 0 collisions, 10 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+
+Switch#
+```
+- Интерфейс включен или выключен?
+
+Интерфейс вклбчен.
+```
+FastEthernet0/6 is up, line protocol is up (connected)
+```
+- Что нужно сделать, чтобы включить интерфейс?
+
+Ничего, он включён. Однако если бы он был выключен, то потребовалась команда no shutdown из режима 
