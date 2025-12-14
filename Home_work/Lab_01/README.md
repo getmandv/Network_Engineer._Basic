@@ -614,3 +614,16 @@ c.	После ввода пароля cisco вы окажетесь в кома�
 
 ![](./images/lab_01_fig_08.png)
 
+d.	Сохраните конфигурацию.
+```
+S1#copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+S1#
+```
+
+e.	Чтобы завершить сеанс Telnet, введите exit.
+
+![](./images/lab_01_fig_09.png)
+
