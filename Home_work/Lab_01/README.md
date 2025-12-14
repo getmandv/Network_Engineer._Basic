@@ -8,9 +8,12 @@
 | S1         | VLAN 1    | 192.168.1.2 / 255.255.255.0  |
 | PC-A       | NIC       | 192.168.1.10 / 255.255.255.0 |
 ### Задание:
-1. [Создание сети и проверка настроек коммутатора по умолчанию.]
- - [Создайте сеть согласно топологии](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#1-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%B9%D1%82%D0%B5-%D1%81%D0%B5%D1%82%D1%8C-%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BD%D0%BE-%D1%82%D0%BE%D0%BF%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8)
- - [Проверьте настройки коммутатора по умолчанию](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#2-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D1%8C%D1%82%D0%B5-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E)
+1. [Часть 1. Создание сети и проверка настроек коммутатора по умолчанию.](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-1-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B5%D1%82%D0%B8-%D0%B8-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BA-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E)
+   - [Шаг 1. Создайте сеть согласно топологии](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#1-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%B9%D1%82%D0%B5-%D1%81%D0%B5%D1%82%D1%8C-%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BD%D0%BE-%D1%82%D0%BE%D0%BF%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8)
+   - [Шаг 2. Проверьте настройки коммутатора по умолчанию](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#2-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D1%8C%D1%82%D0%B5-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E)
+2. [Часть 2. Настройка базовых параметров сетевых устройств.](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-2-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D1%85-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%BE%D0%B2-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D1%8B%D1%85-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2)
+   - [Шаг 1. Настройте базовые параметры коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#%D1%88%D0%B0%D0%B3-1-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%82%D0%B5-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
+   - [Шаг 2. Настройте IP-адрес на компьютере PC-A.](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#%D1%88%D0%B0%D0%B3-1-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%82%D0%B5-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0-1)
 ## Часть 1. Создание сети и проверка настроек коммутатора по умолчанию.
 ###  1. Создайте сеть согласно топологии.
 a. Подсоедините консольный кабель, как показано в топологии. На данном этапе не подключайте кабель Ethernet компьютера PC-A.
@@ -343,3 +346,76 @@ FastEthernet0/6 is up, line protocol is up (connected)
 - Что нужно сделать, чтобы включить интерфейс?
 
 Ничего, он включён. Однако если бы он был выключен, то потребовалась бы команда no shutdown из режима глобальной конфигурации.
+- Какой MAC-адрес у интерфейса?
+
+MAC-адрес 00:0C:85:E3:C1:06
+```
+Hardware is Lance, address is 000c.85e3.c106 (bia 000c.85e3.c106)
+```
+- Какие настройки скорости и дуплекса заданы в интерфейсе?
+```
+Full-duplex, 100Mb/s
+```
+i.	Изучите флеш-память.
+```
+Switch#show flash
+Directory of flash:/
+
+    1  -rw-     4670455          <no date>  2960-lanbasek9-mz.150-2.SE4.bin
+
+64016384 bytes total (59345929 bytes free)
+Switch#
+```
+- Какое имя присвоено образу Cisco IOS?
+Образу Cisco IOS присвоено имя 2960-lanbasek9-mz.150-2.SE4.bin
+## Часть 2. Настройка базовых параметров сетевых устройств.
+###  Шаг 1. Настройте базовые параметры коммутатора.
+a.	В режиме глобальной конфигурации скопируйте следующие базовые параметры конфигурации и вставьте их в файл на коммутаторе S1. 
+```
+Switch>
+Switch>enable
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#no ip domain-lookup
+Switch(config)#hostname S1
+S1(config)#service password-encryption 
+S1(config)#enable secret class
+S1(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+Unauthorized access is strictly prohibited. #
+
+S1(config)#
+```
+
+b.	Назначьте IP-адрес интерфейсу SVI на коммутаторе. Благодаря этому вы получите возможность удаленного управления коммутатором.
+```
+S1(config)#interface vlan1
+S1(config-if)#ip address 192.168.1.2 255.255.255.0
+S1(config-if)#no shutdown
+
+S1(config-if)#
+%LINK-5-CHANGED: Interface Vlan1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to up
+
+S1(config-if)#
+```
+
+c.	Доступ через порт консоли также следует ограничить  с помощью пароля. Используйте cisco в качестве пароля для входа в консоль в этом задании. Чтобы консольные сообщения не прерывали выполнение команд, используйте параметр logging synchronous.
+```
+S1(config-if)#line console 0
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#
+```
+```
+S1(config-line)#logging synchronous
+S1(config-line)#
+```
+d.	Настройте каналы виртуального соединения для удаленного управления (vty), чтобы коммутатор разрешил доступ через Telnet. 
+```
+
+```
+- Для чего нужна команда login?
+Команда login непосредственно включает необходимость ввода ранее установленного пароля.
+###  Шаг 2. Настройте IP-адрес на компьютере PC-A.
