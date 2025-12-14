@@ -18,6 +18,8 @@
    - [Шаг 1. Отобразите конфигурацию коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/edit/main/Home_work/Lab_01/README.md#%D1%88%D0%B0%D0%B3-1-%D0%BE%D1%82%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B8%D1%82%D0%B5-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8E-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
    - [Шаг 2. Протестируйте сквозное соединение, отправив эхо-запрос.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D1%88%D0%B0%D0%B3-2-%D0%BF%D1%80%D0%BE%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5-%D1%81%D0%BA%D0%B2%D0%BE%D0%B7%D0%BD%D0%BE%D0%B5-%D1%81%D0%BE%D0%B5%D0%B4%D0%B8%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BE%D1%82%D0%BF%D1%80%D0%B0%D0%B2%D0%B8%D0%B2-%D1%8D%D1%85%D0%BE-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81)
    - [Шаг 3. Проверьте удаленное управление коммутатором S1.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D1%88%D0%B0%D0%B3-3-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D1%8C%D1%82%D0%B5-%D1%83%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%BD%D0%BE%D0%B5-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%BE%D0%BC-s1)
+4. [Вопросы для повторения](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%B5%D0%BD%D0%B8%D1%8F)
+5. [	Приложение А. Инициализация и перезагрузка коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B0-%D0%B8%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D0%BF%D0%B5%D1%80%D0%B5%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
 ## Часть 1. Создание сети и проверка настроек коммутатора по умолчанию.
 ###  1. Создайте сеть согласно топологии.
 a. Подсоедините консольный кабель, как показано в топологии. На данном этапе не подключайте кабель Ethernet компьютера PC-A.
@@ -627,3 +629,179 @@ e.	Чтобы завершить сеанс Telnet, введите exit.
 
 ![](./images/lab_01_fig_09.png)
 
+## Вопросы для повторения.
+1.	Зачем необходимо настраивать пароль VTY для коммутатора?
+
+Что бы при удлаённом подключении к коммутатору требовалось ввести устанолвенный пароль для установки соединения.
+
+2.	Что нужно сделать, чтобы пароли не отправлялись в незашифрованном виде?
+
+Подключаться к коммутатору по протоколу SSH.
+
+## 	Приложение А. Инициализация и перезагрузка коммутатора.
+a.	Подключитесь к коммутатору с помощью консоли и войдите в привилегированный режим EXEC.
+```
+Press RETURN to get started!
+
+
+Unauthorized access is strictly prohibited. 
+
+User Access Verification
+
+Password: 
+
+S1>enable
+Password: 
+S1#
+```
+b.	Воспользуйтесь командой show flash, чтобы определить, были ли созданы сети VLAN на коммутаторе.
+```
+S1#show flash
+Directory of flash:/
+
+    1  -rw-     4670455          <no date>  2960-lanbasek9-mz.150-2.SE4.bin
+    3  -rw-        1293          <no date>  config.text
+
+64016384 bytes total (59344636 bytes free)
+S1#
+```
+c.	Если во флеш-памяти обнаружен файл vlan.dat, удалите его.
+
+Файла отсутствует.
+
+d.	Появится запрос о проверке имени файла.
+
+При попытке удалить не существующий файл, запрос действительно появляется однако, разумеется появляется ошибка сообщающая об отсутствии файла.
+```
+S1#delete vlan.dat
+Delete filename [vlan.dat]?
+Delete flash:/vlan.dat? [confirm]
+%Error deleting flash:/vlan.dat (No such file or directory)
+
+S1#
+```
+e.	Введите команду erase startup-config.
+```
+S1#erase startup-config
+Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]
+[OK]
+Erase of nvram: complete
+%SYS-7-NV_BLOCK_INIT: Initialized the geometry of nvram
+S1#
+```
+f.	Перезагрузите коммутатор, чтобы удалить устаревшую информацию о конфигурации из памяти. 
+```
+S1#reload
+Proceed with reload? [confirm]
+C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(25r)FX, RELEASE SOFTWARE (fc4)
+Cisco WS-C2960-24TT (RC32300) processor (revision C0) with 21039K bytes of memory.
+2960-24TT starting...
+Base ethernet MAC Address: 0090.21B4.8C69
+Xmodem file system is available.
+Initializing Flash...
+```
+g.	После перезагрузки коммутатора появится запрос о входе в диалоговое окно начальной конфигурации. 
+
+Подобный запрос не появился, однако сонфигурация коммутатора полностью сброшена.
+```
+Switch>
+Switch>enable
+Switch#show startup-config 
+startup-config is not present
+Switch#
+```
+```
+Switch#show running-config 
+Building configuration...
+
+Current configuration : 1080 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+!
+!
+!
+line con 0
+!
+line vty 0 4
+ login
+line vty 5 15
+ login
+!
+!
+!
+!
+end
+
+
+Switch#
+```
