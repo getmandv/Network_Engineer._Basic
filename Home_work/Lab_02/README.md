@@ -300,6 +300,28 @@ Switch>
 ```
 ### Шаг 4. Настройте базовые параметры каждого коммутатора.
 a.	Настройте имена устройств в соответствии с топологией.
+
+S1
+```
+Switch>
+Switch>enable
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname S1
+S1(config)#
+```
+S2
+```
+Switch>
+Switch>enable
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname S2
+S2(config)#
+```
+b.	Настройте IP-адреса, как указано в таблице адресации.
+
+
 ## Часть 2. Настройка базовых параметров сетевых устройств.
 ###  Шаг 1. Настройте базовые параметры коммутатора.
 a.	В режиме глобальной конфигурации скопируйте следующие базовые параметры конфигурации и вставьте их в файл на коммутаторе S1. 
