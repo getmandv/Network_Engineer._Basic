@@ -357,6 +357,16 @@ S2(config-if)#
 ```
 c.	Назначьте cisco в качестве паролей консоли и VTY.
 
+S1
+```
+S1(config)#
+S1(config)#line console 0
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#
+```
+S2
+```
 
 ## Часть 2. Настройка базовых параметров сетевых устройств.
 ###  Шаг 1. Настройте базовые параметры коммутатора.
