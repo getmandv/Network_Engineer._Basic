@@ -363,10 +363,25 @@ S1(config)#
 S1(config)#line console 0
 S1(config-line)#password cisco
 S1(config-line)#login
+S1(config-line)#line vty 0 4
+S1(config-line)#password cisco
+S1(config-line)#login
 S1(config-line)#
 ```
 S2
 ```
+S2(config)#
+S2(config)#line console 0
+S2(config-line)#password cisco
+S2(config-line)#login
+S2(config-line)#line vty 0 4
+S2(config-line)#password cisco
+S2(config-line)#login
+S2(config-line)#
+```
+d.	Назначьте class в качестве пароля доступа к привилегированному режиму EXEC.
+
+
 
 ## Часть 2. Настройка базовых параметров сетевых устройств.
 ###  Шаг 1. Настройте базовые параметры коммутатора.
