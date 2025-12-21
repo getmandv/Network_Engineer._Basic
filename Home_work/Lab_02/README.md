@@ -321,6 +321,42 @@ S2(config)#
 ```
 b.	Настройте IP-адреса, как указано в таблице адресации.
 
+S1
+```
+S1>
+S1>enable
+S1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S1(config)#interface vlan1
+S1(config-if)#ip address 192.168.1.11 255.255.255.0
+S1(config-if)#no shutdown
+
+S1(config-if)#
+%LINK-5-CHANGED: Interface Vlan1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to up
+
+S1(config-if)#
+```
+S2
+```
+S2>
+S2>enable
+S2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S2(config)#interface vlan1
+S2(config-if)#ip address 192.168.1.12 255.255.255.0
+S2(config-if)#no shutdown
+
+S2(config-if)#
+%LINK-5-CHANGED: Interface Vlan1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to up
+
+S2(config-if)#
+```
+c.	Назначьте cisco в качестве паролей консоли и VTY.
+
 
 ## Часть 2. Настройка базовых параметров сетевых устройств.
 ###  Шаг 1. Настройте базовые параметры коммутатора.
