@@ -18,8 +18,8 @@
 2. [Часть 2. Изучение таблицы МАС-адресов коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_02/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-2-%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8B-%D0%BC%D0%B0%D1%81-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
    - [Шаг 1. Запишите МАС-адреса сетевых устройств.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_02/README.md#%D1%88%D0%B0%D0%B3-1-%D0%B7%D0%B0%D0%BF%D0%B8%D1%88%D0%B8%D1%82%D0%B5-%D0%BC%D0%B0%D1%81-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%B0-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D1%8B%D1%85-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2)
    - [Шаг 2. Просмотрите таблицу МАС-адресов коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_02/README.md#%D1%88%D0%B0%D0%B3-2-%D0%BF%D1%80%D0%BE%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B8%D1%82%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%83-%D0%BC%D0%B0%D1%81-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
-   - [Шаг 3. Очистите таблицу МАС-адресов коммутатора S2 и снова отобразите таблицу МАС-адресов.]()
-   - [Шаг 4. С компьютера PC-B отправьте эхо-запросы устройствам в сети и просмотрите таблицу МАС-адресов коммутатора.]()
+   - [Шаг 3. Очистите таблицу МАС-адресов коммутатора S2 и снова отобразите таблицу МАС-адресов.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_02/README.md#%D1%88%D0%B0%D0%B3-3-%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%83-%D0%BC%D0%B0%D1%81-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0-s2-%D0%B8-%D1%81%D0%BD%D0%BE%D0%B2%D0%B0-%D0%BE%D1%82%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B8%D1%82%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%83-%D0%BC%D0%B0%D1%81-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2)
+   - [Шаг 4. С компьютера PC-B отправьте эхо-запросы устройствам в сети и просмотрите таблицу МАС-адресов коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_02/README.md#%D1%88%D0%B0%D0%B3-4-%D1%81-%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%B0-pc-b-%D0%BE%D1%82%D0%BF%D1%80%D0%B0%D0%B2%D1%8C%D1%82%D0%B5-%D1%8D%D1%85%D0%BE-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%B0%D0%BC-%D0%B2-%D1%81%D0%B5%D1%82%D0%B8-%D0%B8-%D0%BF%D1%80%D0%BE%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B8%D1%82%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%83-%D0%BC%D0%B0%D1%81-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
 3. [Вопросы для повторения]()
 4. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_02/pkt/lab_02.pkt)
@@ -594,7 +594,7 @@ S2#
 
 ![](./images/lab_02_fig_05.png)
 
-На коммутаторе S1 к 6 порту подключен PC-A с MAC-адресом 00:01:63:63:2D:AE, этот же MAC-адрес видно и на комутаторе S2 на 1 порту (красная стрелка).Соответственно оставшийся MAC-адрес на порту 1 коммутатора S2 00:E0:A3:60:BD:01 это MAC-адрес коммутатора S1. Аналогичная логика и в обратном направлении. На коммутаторе S2 к 18 порту подключен PC-B с MAC-адресом 00:01:97:81:0C:80, этот же MAC-адрес видно и на комутаторе S1 на 1 порту (синяя стрелка). Соответственно оставшийся MAC-адрес на порту 1 коммутатора 1 00:D0:97:E6:5A:01 это MAC-адрес коммутатора S2.
+На коммутаторе S1 к 6 порту подключен PC-A с MAC-адресом 00:01:63:63:2D:AE, этот же MAC-адрес видно и на комутаторе S2 на 1 порту (красная стрелка).Соответственно оставшийся MAC-адрес на порту 1 коммутатора S2 00:E0:A3:60:BD:01 это MAC-адрес порта 1 коммутатора S1. Аналогичная логика и в обратном направлении. На коммутаторе S2 к 18 порту подключен PC-B с MAC-адресом 00:01:97:81:0C:80, этот же MAC-адрес видно и на комутаторе S1 на 1 порту (синяя стрелка). Соответственно оставшийся MAC-адрес на порту 1 коммутатора 1 00:D0:97:E6:5A:01 это MAC-адрес порта 1 коммутатора S2.
 
 - Работает ли это решение в любой ситуации?
 
@@ -619,10 +619,10 @@ S2#
 ```
 - Указаны ли в таблице МАС-адресов адреса для VLAN 1?
 
-Да.
+Нет.
 - Указаны ли другие МАС-адреса?
 
-Нет.
+Да. Указан MAC-адрес порта 1 коммутатора S1.
 - Через 10 секунд введите команду show mac address-table и нажмите клавишу ввода.
 ```
 S2#show mac-address-table 
@@ -638,3 +638,113 @@ S2#
 - Появились ли в таблице МАС-адресов новые адреса?
 
 Нет не появились, так как в сети нет активности кроме обмена трафиком между двумя коммутаторами.
+### Шаг 4. С компьютера PC-B отправьте эхо-запросы устройствам в сети и просмотрите таблицу МАС-адресов коммутатора.
+a.	На компьютере PC-B откройте командную строку и еще раз введите команду arp -a.
+```
+C:\>arp -a
+  Internet Address      Physical Address      Type
+  192.168.1.1           0001.6363.2dae        dynamic
+
+C:\>
+```
+- Не считая адресов многоадресной и широковещательной рассылки, сколько пар IP- и МАС-адресов устройств было получено через протокол ARP?
+
+Одна пара.
+
+b.	Из командной строки PC-B отправьте эхо-запросы на компьютер PC-A, а также коммутаторы S1 и S2.
+```
+C:\>ping 192.168.1.1
+
+Pinging 192.168.1.1 with 32 bytes of data:
+
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=128
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=128
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=128
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=128
+
+Ping statistics for 192.168.1.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>ping 192.168.1.11
+
+Pinging 192.168.1.11 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.1.11: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.11: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.11: bytes=32 time=1ms TTL=255
+
+Ping statistics for 192.168.1.11:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 1ms, Average = 0ms
+
+C:\>ping 192.168.1.12
+
+Pinging 192.168.1.12 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.1.12: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.12: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.12: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.1.12:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+```
+- От всех ли устройств получены ответы?
+
+Да.
+
+c.	Подключившись через консоль к коммутатору S2, введите команду show mac address-table.
+```
+S2#show mac-address-table 
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+
+   1    0001.6363.2dae    DYNAMIC     Fa0/1
+   1    0001.9781.0c80    DYNAMIC     Fa0/18
+   1    00e0.a360.bd01    DYNAMIC     Fa0/1
+   1    00e0.a395.5b01    DYNAMIC     Fa0/1
+S2#
+```
+- Добавил ли коммутатор в таблицу МАС-адресов дополнительные МАС-адреса? Если да, то какие адреса и устройства?
+
+Да. МАС-адрес 00:E0:A3:95:5B:01. Это базовый MAC-адрес коммутатора S1.
+```
+S1#show version 
+...
+Base ethernet MAC Address       : 00:E0:A3:95:5B:01
+...
+
+S1#
+```
+Этот же MAC-адрес назначается интерфейсу VLAN1 коммутатора S1.
+```
+S1#show interfaces vlan 1
+Vlan1 is up, line protocol is up
+  Hardware is CPU Interface, address is 00e0.a395.5b01 (bia 00e0.a395.5b01)
+  Internet address is 192.168.1.11/24
+ ...
+S1#
+```
+- На компьютере PC-B откройте командную строку и еще раз введите команду arp -a.
+```
+C:\>arp -a
+  Internet Address      Physical Address      Type
+  192.168.1.1           0001.6363.2dae        dynamic
+  192.168.1.11          00e0.a395.5b01        dynamic
+  192.168.1.12          0003.e43e.d533        dynamic
+
+C:\>
+```
+- Появились ли в ARP-кэше компьютера PC-B дополнительные записи для всех сетевых устройств, которым были отправлены эхо-запросы?
+
+Да.
+
