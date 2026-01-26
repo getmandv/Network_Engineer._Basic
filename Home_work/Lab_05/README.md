@@ -12,7 +12,7 @@
 ### Задание:
 1. [Часть 1. Настройка основных параметров устройства.]()
    - [Шаг 1. Создайте сеть согласно топологии.]()
-   - [Шаг 2. ]()
+   - [Шаг 2. Выполните инициализацию и перезагрузку маршрутизатора и коммутатора.]()
 2. [Часть 2. Настройка базовых параметров сетевых устройств.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-2-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D1%85-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%BE%D0%B2-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D1%8B%D1%85-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2)
    - [Шаг 1. Настройте базовые параметры коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D1%88%D0%B0%D0%B3-1-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%82%D0%B5-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
    - [Шаг 2. Настройте IP-адрес на компьютере PC-A.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D1%88%D0%B0%D0%B3-2-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%82%D0%B5-ip-%D0%B0%D0%B4%D1%80%D0%B5%D1%81-%D0%BD%D0%B0-%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%B5-pc-a)
@@ -30,14 +30,15 @@
 ## Часть 1. Настройка основных параметров устройства.
 ###  Шаг 1. Создайте сеть согласно топологии.
 ![](./images/lab_05_fig_02.png)
-###  2. Проверьте настройки коммутатора по умолчанию.
-a. Введите команду enable, чтобы войти в привилегированный режим EXEC.
+###  Шаг 2. Выполните инициализацию и перезагрузку маршрутизатора и коммутатора.
 ```
-Switch>
-Switch>enable
-Switch#
+         --- System Configuration Dialog ---
+
+Would you like to enter the initial configuration dialog? [yes/no]: n
+
+
+Press RETURN to get started!
 ```
-b. Изучите текущий файл running configuration.
 ```
 Switch#show running-config 
 Building configuration...
