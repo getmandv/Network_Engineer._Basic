@@ -40,9 +40,9 @@
 ###  Шаг 1. Создайте сеть согласно топологии.
 ![](./images/lab_05_fig_02.png)
 ###  Шаг 2. Выполните инициализацию и перезагрузку маршрутизатора и коммутатора.
-Маршрутизатор
+- Маршрутизатор
 ```
-Router>en
+Router>enable
 Router#erase startup-config 
 Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]y[OK]
 Erase of nvram: complete
