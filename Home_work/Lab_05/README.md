@@ -14,10 +14,10 @@
    - [Шаг 1. Создайте сеть согласно топологии.]()
    - [Шаг 2. Выполните инициализацию и перезагрузку маршрутизатора и коммутатора.]()
    - [Шаг 3. Настройте маршрутизатор.]()
-   - [Шаг 4.]()
-   - [Шаг 5.]()
-2. [Часть 2.]()
-   - [Шаг 1.]()
+   - [ШШаг 4. Настройте компьютер PC-A.]()
+   - [Шаг 5. Проверьте подключение к сети.]()
+2. [Часть 2. Настройка маршрутизатора для доступа по протоколу SSH]()
+   - [Шаг 1. Настройте аутентификацию устройств.]()
    - [Шаг 2.]()
    - [Шаг 3.]()
    - [Шаг 4.]()
@@ -139,4 +139,76 @@ Router#
 ```
 ###  Шаг 4. Настройте компьютер PC-A.
 a.	Настройте для PC-A IP-адрес и маску подсети.
+b.	Настройте для PC-A шлюз по умолчанию.
+
 ![](./images/lab_05_fig_03.png)
+###  Шаг 5. Проверьте подключение к сети.
+```
+C:\>ping 192.168.1.1
+
+Pinging 192.168.1.1 with 32 bytes of data:
+
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.1.1: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.1.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>
+```
+## Часть 2. Настройка маршрутизатора для доступа по протоколу SSH
+###  Шаг 1. Настройте аутентификацию устройств.
+a.	Задайте имя устройства.
+```
+Router(config)#hostname R1
+R1(config)#
+```
+b.	Задайте домен для устройства.
+```
+R1(config)#ip domain-name otus.ru
+R1(config)#
+```
+###  Шаг 2. Создайте ключ шифрования с указанием его длины.
+```
+R1(config)#crypto key generate rsa  general-keys modulus 1024
+The name for the keys will be: R1.otus.ru
+
+% The key modulus size is 1024 bits
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+*Mar 3 3:29:8.909: %SSH-5-ENABLED: SSH 1.99 has been enabled
+R1(config)#
+```
+###  Шаг 3. Создайте имя пользователя в локальной базе учетных записей.
+```
+R1(config)#username admin privilege 15 secret Adm1nP@55
+R1(config)#
+```
+### Шаг 4. Активируйте протокол SSH на линиях VTY.
+a.	Активируйте протоколы Telnet и SSH на входящих линиях VTY с помощью команды transport input.
+```
+R1(config)#line vty 0 15
+R1(config-line)#transport input ssh 
+R1(config-line)#
+```
+b.	Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
+```
+R1(config-line)#login local 
+R1(config-line)#
+```
+### Шаг 5. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+```
+R1#copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+R1#
+```
+### Шаг 6. Установите соединение с маршрутизатором по протоколу SSH.
+a.	Запустите Tera Term с PC-A.
+![](./images/lab_05_fig_03.png)
+b.	Установите SSH-подключение к R1. Use the username admin and password Adm1nP@55. У вас должно получиться установить SSH-подключение к R1.
+```
