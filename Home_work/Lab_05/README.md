@@ -251,3 +251,68 @@ Switch(config)#
 ```
 i.	Настройте и активируйте на коммутаторе интерфейс VLAN 1, используя информацию, приведенную в таблице адресации.
 ```
+Switch(config)#interface vlan1
+Switch(config-if)#ip address 192.168.1.11 255.255.255.0
+Switch(config-if)#no shutdown
+
+Switch(config-if)#
+%LINK-5-CHANGED: Interface Vlan1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to up
+Switch(config-if)#exit
+Switch(config)#ip default-gateway 192.168.1.1
+Switch(config)#
+```
+j.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+```
+Switch#copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+Switch#
+```
+### Шаг 2. Настройте коммутатор для соединения по протоколу SSH.
+a.	Настройте имя устройства, как указано в таблице адресации.
+```
+Switch(config)#hostname S1
+S1(config)#
+```
+b.	Задайте домен для устройства.
+```
+S1(config)#ip domain-name otus.ru
+S1(config)#
+```
+c.	Создайте ключ шифрования с указанием его длины.
+```
+S1(config)#crypto key generate rsa  general-keys modulus 1024
+The name for the keys will be: S1.otus.ru
+
+% The key modulus size is 1024 bits
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+*Mar 4 1:58:2.161: %SSH-5-ENABLED: SSH 1.99 has been enabled
+S1(config)#
+```
+d.	Создайте имя пользователя в локальной базе учетных записей.
+```
+S1(config)#username admin privilege 15 secret Adm1nP@55
+S1(config)#
+```
+e.	Активируйте протоколы Telnet и SSH на линиях VTY.
+```
+S1(config)#line vty 0 15
+S1(config-line)#transport input all
+S1(config-line)#
+```
+f.	Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
+```
+S1(config-line)#login local 
+S1(config-line)#
+```
+### Шаг 3. Установите соединение с коммутатором по протоколу SSH.
+![](./images/lab_05_fig_05.png)
+
+- Удалось ли вам установить SSH-соединение с коммутатором?
+
+Да.
+![](./images/lab_05_fig_06.png)
+## Часть 4. Настройка протокола SSH с использованием интерфейса командной строки (CLI) коммутатора
