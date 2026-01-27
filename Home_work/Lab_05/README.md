@@ -11,25 +11,9 @@
 |PC-A        |NIC        | 192.168.1.3 |255.255.255.0|192.168.1.1      |
 ### Задание:
 1. [Часть 1. Настройка основных параметров устройства.]()
-   - [Шаг 1. Создайте сеть согласно топологии.]()
-   - [Шаг 2. Выполните инициализацию и перезагрузку маршрутизатора и коммутатора.]()
-   - [Шаг 3. Настройте маршрутизатор.]()
-   - [ШШаг 4. Настройте компьютер PC-A.]()
-   - [Шаг 5. Проверьте подключение к сети.]()
 2. [Часть 2. Настройка маршрутизатора для доступа по протоколу SSH]()
-   - [Шаг 1. Настройте аутентификацию устройств.]()
-   - [Шаг 2.]()
-   - [Шаг 3.]()
-   - [Шаг 4.]()
-   - [Шаг 5.]()
-   - [Шаг 6.]()
-3. [Часть 3.]()
-   - [Шаг 1.]()
-   - [Шаг 2.]()
-   - [Шаг 3.]()
+3. [Часть 3. Настройка коммутатора для доступа по протоколу SSH]()
 4. [Часть 4.]()
-   - [Шаг 1.]()
-   - [Шаг 2.]()
 5. [Вопросы для повторения](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%B5%D0%BD%D0%B8%D1%8F)
 6. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/pkt/lab_01.pkt)
@@ -209,6 +193,61 @@ R1#
 ```
 ### Шаг 6. Установите соединение с маршрутизатором по протоколу SSH.
 a.	Запустите Tera Term с PC-A.
+
 ![](./images/lab_05_fig_03.png)
+
 b.	Установите SSH-подключение к R1. Use the username admin and password Adm1nP@55. У вас должно получиться установить SSH-подключение к R1.
+
+![](./images/lab_05_fig_04.png)
+## Часть 3. Настройка коммутатора для доступа по протоколу SSH
+### Шаг 1. Настройте основные параметры коммутатора.
+a.	Подключитесь к маршрутизатору с помощью консоли и активируйте привилегированный режим EXEC.
+```
+Switch>enable
+Switch#
+```
+b.	Войдите в режим конфигурации.
+```
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#
+```
+c.	Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+```
+Switch(config)#no ip domain-lookup
+Switch(config)#
+```
+d.	Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
+```
+Switch(config)#enable secret class
+Switch(config)#
+```
+e.	Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+```
+Switch(config)#line con 0
+Switch(config-line)#password cisco
+Switch(config-line)#login
+Switch(config-line)#
+```
+f.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+```
+Switch(config)#line vty 0 15
+Switch(config-line)#password cisco
+Switch(config-line)#login
+Switch(config-line)#
+```
+g.	Зашифруйте открытые пароли.
+```
+Switch(config)#service password-encryption 
+Switch(config)#
+```
+h.	Создайте баннер, который предупреждает о запрете несанкционированного доступа.
+```
+Switch(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+Authorized Users Only For S1!#
+
+Switch(config)#
+```
+i.	Настройте и активируйте на коммутаторе интерфейс VLAN 1, используя информацию, приведенную в таблице адресации.
 ```
