@@ -184,3 +184,72 @@ Vlan1                      [administratively down/down]
     unassigned
 R1#
 ```
+c.	Чтобы обеспечить соответствие локальных адресов канала индивидуальному адресу, вручную введите локальные адреса канала на каждом интерфейсе Ethernet на R1.
+```
+R1(config)#interface g0/0/0
+R1(config-if)#ipv6 address fe80::1 link-local 
+R1(config-if)#exit
+R1(config)#interface g0/0/1
+R1(config-if)#ipv6 address fe80::1 link-local 
+R1(config-if)#
+```
+d.	Используйте выбранную команду, чтобы убедиться, что локальный адрес связи изменен на fe80::1.
+```
+R1#show ipv6 interface brief 
+GigabitEthernet0/0/0       [up/up]
+    FE80::1
+    2001:DB8:ACAD:A::1
+GigabitEthernet0/0/1       [up/up]
+    FE80::1
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/2       [administratively down/down]
+    unassigned
+Vlan1                      [administratively down/down]
+    unassigned
+R1#
+```
+- Какие группы многоадресной рассылки назначены интерфейсу G0/0?
+На нашем маршрутизаторе нет такого интерфейса, однако предположу что допущена опечатка и подразумевался итерфейс g0/0/0. В таком случае:
+```
+R1#show ipv6 interface g0/0/0
+GigabitEthernet0/0/0 is up, line protocol is up
+  IPv6 is enabled, link-local address is FE80::1
+  No Virtual link-local address(es):
+  Global unicast address(es):
+    2001:DB8:ACAD:A::1, subnet is 2001:DB8:ACAD:A::/64
+  Joined group address(es):
+    FF02::1
+    FF02::1:FF00:1
+  MTU is 1500 bytes
+  ICMP error messages limited to one every 100 milliseconds
+  ICMP redirects are enabled
+  ICMP unreachables are sent
+  ND DAD is enabled, number of DAD attempts: 1
+  ND reachable time is 30000 milliseconds
+R1#
+```
+Группы
+```
+  Joined group address(es):
+    FF02::1
+    FF02::1:FF00:1
+```
+### Шаг 2. Активируйте IPv6-маршрутизацию на R1.
+a.	В командной строке на PC-B введите команду ipconfig, чтобы получить данные IPv6-адреса, назначенного интерфейсу ПК.
+```
+C:\>ipconfig
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: 
+   Link-local IPv6 Address.........: FE80::230:A3FF:FEEC:9937
+   IPv6 Address....................: ::
+   IPv4 Address....................: 0.0.0.0
+   Subnet Mask.....................: 0.0.0.0
+   Default Gateway.................: ::
+                                     0.0.0.0
+C:\>
+```
+- Назначен ли индивидуальный IPv6-адрес сетевой интерфейсной карте (NIC) на PC-B?
+
+Да. Сформирован автоматически. FE80::230:A3FF:FEEC:9937
