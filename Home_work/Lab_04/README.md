@@ -144,3 +144,43 @@ S1#reload
 ## Часть 2. Ручная настройка IPv6-адресов
 ### Шаг 1. Назначьте IPv6-адреса интерфейсам Ethernet на R1.
 a.	Назначьте глобальные индивидуальные IPv6-адреса, указанные в таблице адресации обоим интерфейсам Ethernet на R1.
+```
+R1(config)#interface g0/0/0
+R1(config-if)#ipv6 address 2001:0db8:acad:000a:0000:0000:0000:0001/64
+R1(config-if)#no shutdown
+R1(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/0, changed state to up 
+R1(config-if)#exit
+R1(config)#interface g0/0/1
+R1(config-if)#ipv6 address 2001:db8:acad:1::1/64
+R1(config-if)#no shutdown 
+R1(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1, changed state to up
+R1(config-if)#exit
+R1(config)#exit
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+R1#wr
+Building configuration...
+[OK]
+R1#
+```
+b.	Введите команду show ipv6 interface brief, чтобы проверить, назначен ли каждому интерфейсу корректный индивидуальный IPv6-адрес.
+```
+R1#show ipv6 interface brief 
+GigabitEthernet0/0/0       [up/up]
+    FE80::290:2BFF:FE4E:7B01
+    2001:DB8:ACAD:A::1
+GigabitEthernet0/0/1       [up/up]
+    FE80::290:2BFF:FE4E:7B02
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/2       [administratively down/down]
+    unassigned
+Vlan1                      [administratively down/down]
+    unassigned
+R1#
+```
