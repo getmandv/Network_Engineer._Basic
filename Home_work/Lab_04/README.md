@@ -314,3 +314,102 @@ Vlan1 is up, line protocol is up
 S1#
 ```
 ### Шаг 4. Назначьте компьютерам статические IPv6-адреса.
+![](./images/lab_04_fig_03.png)
+## Часть 3. Проверка сквозного подключения
+- С PC-A отправьте эхо-запрос на FE80::1. Это локальный адрес канала, назначенный G0/1 на R1.
+```
+C:\>ping FE80::1
+
+Pinging FE80::1 with 32 bytes of data:
+
+Reply from FE80::1: bytes=32 time=2ms TTL=255
+Reply from FE80::1: bytes=32 time=1ms TTL=255
+Reply from FE80::1: bytes=32 time<1ms TTL=255
+Reply from FE80::1: bytes=32 time=8ms TTL=255
+
+Ping statistics for FE80::1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 8ms, Average = 2ms
+
+C:\>
+```
+- Отправьте эхо-запрос на интерфейс управления S1 с PC-A.
+```
+C:\>ping fe80::b
+
+Pinging fe80::b with 32 bytes of data:
+
+Reply from FE80::B: bytes=32 time=2009ms TTL=255
+Reply from FE80::B: bytes=32 time<1ms TTL=255
+Reply from FE80::B: bytes=32 time<1ms TTL=255
+Reply from FE80::B: bytes=32 time<1ms TTL=255
+
+Ping statistics for FE80::B:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 2009ms, Average = 502ms
+
+C:\>
+```
+- Введите команду tracert на PC-A, чтобы проверить наличие сквозного подключения к PC-B.
+```
+C:\>tracert 2001:DB8:ACAD:A::3
+
+Tracing route to 2001:DB8:ACAD:A::3 over a maximum of 30 hops: 
+
+  1   0 ms      0 ms      0 ms      2001:DB8:ACAD:1::1
+  2   0 ms      0 ms      0 ms      2001:DB8:ACAD:A::3
+
+Trace complete.
+
+C:\>
+```
+- С PC-B отправьте эхо-запрос на PC-A.
+```
+C:\>ping 2001:DB8:ACAD:1::3
+
+Pinging 2001:DB8:ACAD:1::3 with 32 bytes of data:
+
+Reply from 2001:DB8:ACAD:1::3: bytes=32 time<1ms TTL=127
+Reply from 2001:DB8:ACAD:1::3: bytes=32 time<1ms TTL=127
+Reply from 2001:DB8:ACAD:1::3: bytes=32 time<1ms TTL=127
+Reply from 2001:DB8:ACAD:1::3: bytes=32 time<1ms TTL=127
+
+Ping statistics for 2001:DB8:ACAD:1::3:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>
+```
+- С PC-B отправьте эхо-запрос на локальный адрес канала G0/0 на R1.
+```
+C:\>ping FE80::1
+
+Pinging FE80::1 with 32 bytes of data:
+
+Reply from FE80::1: bytes=32 time<1ms TTL=255
+Reply from FE80::1: bytes=32 time<1ms TTL=255
+Reply from FE80::1: bytes=32 time<1ms TTL=255
+Reply from FE80::1: bytes=32 time<1ms TTL=255
+
+Ping statistics for FE80::1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>
+```
+## Вопросы для повторения.
+1.	Почему обоим интерфейсам Ethernet на R1 можно назначить один и тот же локальный адрес канала — FE80::1?
+
+Потому что локальные адреса канала привязаны к одному сегменту локальной сети и используются только для связи между устройствами в этом же сегменте.
+
+2.	Какой идентификатор подсети в индивидуальном IPv6-адресе 2001:db8:acad::aaaa:1234/64?
+
+Адрес 2001:db8:acad::aaaa:1234 это сокращённая запись адреса 2001:0db8:acad:0000:0000:0000:aaaa:1234 соответсвтенно первые 64 бита или первые 4 хекстета адреса будут определять сеть и подсеть. Однако предположу что это вопрос с небольшим подвохом и если мы говорим именно о идентификаторе подсети то его опреедляет 4 хекстет. В нашем случае 0000.
+Опирался на следующие слайды презентации:
+![](./images/lab_04_fig_04.png)
+
+![](./images/lab_04_fig_05.png)
