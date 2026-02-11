@@ -12,10 +12,10 @@
 |PC-A        |NIC        | 2001:db8:acad:1::3|SLACC                |64            |fe80::1          |
 |PC-B        |NIC        | 2001:db8:acad:a::3|SLACC                |64            |fe80::1          |
 ### Задание:
-1. [Часть 1. Настройка топологии и конфигурация основных параметров маршрутизатора и коммутатора]()
-2. [Часть 2. Ручная настройка IPv6-адресов]()
-3. [Часть 3. Проверка сквозного подключения]()
-4. [Вопросы для повторения]()
+1. [Часть 1. Настройка топологии и конфигурация основных параметров маршрутизатора и коммутатора](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_04/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-1-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D1%82%D0%BE%D0%BF%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8-%D0%B8-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D1%85-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%BE%D0%B2-%D0%BC%D0%B0%D1%80%D1%88%D1%80%D1%83%D1%82%D0%B8%D0%B7%D0%B0%D1%82%D0%BE%D1%80%D0%B0-%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
+2. [Часть 2. Ручная настройка IPv6-адресов](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_04/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-2-%D1%80%D1%83%D1%87%D0%BD%D0%B0%D1%8F-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-ipv6-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2)
+3. [Часть 3. Проверка сквозного подключения](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_04/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-3-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D1%81%D0%BA%D0%B2%D0%BE%D0%B7%D0%BD%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D1%8F)
+4. [Вопросы для повторения](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_04/README.md#%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%B5%D0%BD%D0%B8%D1%8F)
 5. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания]()
 
