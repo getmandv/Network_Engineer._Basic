@@ -31,3 +31,4 @@
 6. [Вопрос для повторения]()
 7. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_05/pkt/lab_05.pkt)
+## Часть 1. Создание сети и настройка основных параметров устройства.
