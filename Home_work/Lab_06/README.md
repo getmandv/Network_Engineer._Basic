@@ -31,7 +31,7 @@
 5. [Часть 5. Проверьте, работает ли маршрутизация между VLAN.]()
 6. [Вопрос для повторения]()
 7. Файлы Cisco Packet Tracer
-   - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_05/pkt/lab_05.pkt)
+   - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_06/pkt/lab_06.pkt)
 ## Часть 1. Создание сети и настройка основных параметров устройства.
 ###  Шаг 1. Создайте сеть согласно топологии.
 ![](./images/lab_06_fig_02.png)
