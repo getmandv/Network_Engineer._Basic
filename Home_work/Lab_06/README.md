@@ -140,3 +140,38 @@ S1#
 ```
 Коммутатор S2
 ```
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname S2
+S2(config)#no ip domain-lookup
+S2(config)#enable secret class
+S2(config)#line con 0
+S2(config-line)#password cisco
+S2(config-line)#login
+S2(config-line)#exit
+S2(config)#line vty 0 15
+S2(config-line)#password cisco
+S2(config-line)#login
+S2(config-line)#exit
+S2(config)#service password-encryption
+S2(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+This is S2 switch.
+Authorized Users Only!#
+
+S2(config)#exit
+S2#
+%SYS-5-CONFIG_I: Configured from console by console
+
+S2#clock set 16:49:00 Feb 23 2026
+S2#wr
+Building configuration...
+[OK]
+S2#
+```
+###  Шаг 4. Настройте узлы ПК.
+ПК PC-A
+![](./images/lab_06_fig_03.png)
+ПК PC-B
+![](./images/lab_06_fig_04.png)
