@@ -14,7 +14,8 @@
 2. [Часть 2. Выбор корневого моста.]()
 3. [Часть 3. Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов.]()
 4. [Часть 4. Наблюдение за процессом выбора протоколом STP порта, исходя из приоритета портов.]()
-5. Файлы Cisco Packet Tracer
+5. [Вопросы для повторения.]()
+6. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_07/pkt/lab_07.pkt)
 ## Часть 1:	Создание сети и настройка основных параметров устройства.
 ###  Шаг 1:	Создайте сеть согласно топологии.
@@ -296,3 +297,252 @@ S3#
 ```
 - В схему ниже запишите роль и состояние (Sts) активных портов на каждом коммутаторе в топологии.
 ![](./images/lab_07_fig_03.png)
+- Какой коммутатор является корневым мостом?
+Коммутатор S1
+```
+This bridge is the root
+```
+- Почему этот коммутатор был выбран протоколом spanning-tree в качестве корневого моста?
+
+Так как в данном примере все коммутаторы имеют равные значения приоритета идентификатора моста, корневым мостом назначается коммутатор с самым маленьким значением MAC-адреса.
+- Какие порты на коммутаторе являются корневыми портами?
+
+Это порт коммутатора, который имеет кратчайший путь к корневому коммутатору (имеет меньшую стоимость).
+- Какие порты на коммутаторе являются назначенными портами?
+
+Это порты которые принимают трафик из соответствующего сегмента.
+- Какой порт отображается в качестве альтернативного и в настоящее время заблокирован?
+
+S2 Fa0/4: Altn BLK
+- Почему протокол spanning-tree выбрал этот порт в качестве невыделенного (заблокированного) порта?
+
+Этот порт не подключен к корневому мосту и является альтернативным.
+## Часть 3:	Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов.
+### Шаг 1:	Определите коммутатор с заблокированным портом.
+Коммутатор S2
+```
+S2#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0001.421C.E7B5
+             Cost        19
+             Port        2(FastEthernet0/2)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00E0.B0E8.7EED
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Root FWD 19        128.2    P2p
+Fa0/4            Altn BLK 19        128.4    P2p
+
+S2#
+```
+Коммутатор S3
+```
+S3#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0001.421C.E7B5
+             Cost        19
+             Port        4(FastEthernet0/4)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0030.A319.89CC
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Desg FWD 19        128.2    P2p
+Fa0/4            Root FWD 19        128.4    P2p
+
+S3#
+```
+Заблокирован порт Fa0/4 на коммутаторе S2, так как у него значние MAC-адреса больше.
+### Шаг 2:	Измените стоимость порта.
+```
+S2(config)#interface fastEthernet 0/2
+S2(config-if)#spanning-tree vlan 1 cost 18
+S2(config-if)#
+```
+### Шаг 3:	Просмотрите изменения протокола spanning-tree.
+Коммутатор S2
+```
+S2#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0001.421C.E7B5
+             Cost        18
+             Port        2(FastEthernet0/2)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00E0.B0E8.7EED
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Root FWD 18        128.2    P2p
+Fa0/4            Desg FWD 19        128.4    P2p
+
+S2#
+```
+Коммутатор S3
+```
+S3#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0001.421C.E7B5
+             Cost        19
+             Port        4(FastEthernet0/4)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0030.A319.89CC
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Altn BLK 19        128.2    P2p
+Fa0/4            Root FWD 19        128.4    P2p
+
+S3#
+```
+- Почему протокол spanning-tree заменяет ранее заблокированный порт на назначенный порт и блокирует порт, который был назначенным портом на другом коммутаторе?
+
+Потому что мы уменьшили стоимость этого порта (повысили его приоритет).
+### Шаг 4:	Удалите изменения стоимости порта.
+a.	Выполните команду no spanning-tree vlan 1 cost 18 режима конфигурации интерфейса, чтобы удалить запись стоимости, созданную ранее.
+```
+S2(config)#interface fastEthernet 0/2
+S2(config-if)#no spanning-tree vlan 1 cost 18
+S2(config-if)#
+```
+b.	Повторно выполните команду show spanning-tree, чтобы подтвердить, что протокол STP сбросил порт на коммутаторе некорневого моста, вернув исходные настройки порта. 
+```
+S2#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0001.421C.E7B5
+             Cost        19
+             Port        2(FastEthernet0/2)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00E0.B0E8.7EED
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Root FWD 19        128.2    P2p
+Fa0/4            Altn BLK 19        128.4    P2p
+
+S2#
+```
+## Часть 4:	Наблюдение за процессом выбора протоколом STP порта, исходя из приоритета портов.
+a.	Включите порты F0/1 и F0/3 на всех коммутаторах.
+```
+S1(config)#interface range fastEthernet 0/1, fastEthernet 0/3
+S1(config-if-range)#no shutdown 
+
+%LINK-5-CHANGED: Interface FastEthernet0/1, changed state to down
+
+%LINK-5-CHANGED: Interface FastEthernet0/3, changed state to down
+S1(config-if-range)#
+```
+Повторяем для остальных коммутаторов.
+
+b.	Подождите 30 секунд, чтобы протокол STP завершил процесс перевода порта, после чего выполните команду show spanning-tree на коммутаторах некорневого моста. 
+
+Коммутатор S2
+```
+S2#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0001.421C.E7B5
+             Cost        19
+             Port        1(FastEthernet0/1)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00E0.B0E8.7EED
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Altn BLK 19        128.2    P2p
+Fa0/1            Root FWD 19        128.1    P2p
+Fa0/3            Altn BLK 19        128.3    P2p
+Fa0/4            Altn BLK 19        128.4    P2p
+
+S2#
+```
+Коммутатор S3
+```
+S3#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0001.421C.E7B5
+             Cost        19
+             Port        3(FastEthernet0/3)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0030.A319.89CC
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Desg FWD 19        128.2    P2p
+Fa0/3            Root FWD 19        128.3    P2p
+Fa0/4            Altn BLK 19        128.4    P2p
+Fa0/1            Desg FWD 19        128.1    P2p
+
+S3#
+```
+- Какой порт выбран протоколом STP в качестве порта корневого моста на каждом коммутаторе некорневого моста?
+
+Коммутатор S2 
+```
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/1            Root FWD 19        128.1    P2p
+```
+Коммутатор S3
+```
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/3            Root FWD 19        128.3    P2p
+```
+- Почему протокол STP выбрал эти порты в качестве портов корневого моста на этих коммутаторах?
+
+Так как стоимость портов равна, используется номер порта. Меньшее значение имеет больший приоритет.
+## Вопросы для повторения.
+- Какое значение протокол STP использует первым после выбора корневого моста, чтобы определить выбор порта?
+
+Если я правильно понял вопрос, то речь идёт о Root Path Cost (стоимость пути к корневому мосту), совокупная стоимость всех каналов к корневому мосту.
+
+- Если первое значение на двух портах одинаково, какое следующее значение будет использовать протокол STP при выборе порта?
+
+Будет использован наименьший Bridge ID (идентификатор моста).
+
+- Если оба значения на двух портах равны, каким будет следующее значение, которое использует протокол STP при выборе порта?
+
+Будет использван наименьшй номер порта.
