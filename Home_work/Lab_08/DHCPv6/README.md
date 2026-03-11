@@ -146,5 +146,87 @@ h.	Активация IPv6-маршрутизации
 
 i.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 ```
+Router(config)#hostname R1
+R1(config)#no ip domain-lookup
+R1(config)#enable secret class
+R1(config)#line con 0
+R1(config-line)#password cisco
+R1(config-line)#login
+R1(config-line)#exit
+R1(config)#line vty 0 15
+R1(config-line)#password cisco
+R1(config-line)#login
+R1(config-line)#exit
+R1(config)#service password-encryption
+R1(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+This is R1 router.
+Authorized Users Only!#
 
+R1(config)#ipv6 unicast-routing
+R1(config)#exit
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#wr
+Building configuration...
+[OK]
+R1#
 ```
+Данную настройку повторяем на маршрутизаторе R2.
+### Шаг 4. Настройка интерфейсов и маршрутизации для обоих маршрутизаторов.
+
+a.	Настройте интерфейсы G0/0/0 и G0/1 на R1 и R2 с адресами IPv6, указанными в таблице выше
+
+Маршрутизатор R1
+```
+R1(config)#interface gigabitEthernet 0/0/0
+R1(config-if)#ipv6 address fe80::1 link-local 
+R1(config-if)#ipv6 address 2001:db8:acad:2::1/64
+R1(config-if)#exit
+R1(config)#interface gigabitEthernet 0/0/1
+R1(config-if)#ipv6 address fe80::1 link-local 
+R1(config-if)#ipv6 address 2001:db8:acad:1::1/64
+R1(config-if)#
+```
+Маршрутизатор R2
+```
+R2(config)#interface gigabitEthernet 0/0/0
+R2(config-if)#ipv6 address fe80::2 link-local
+R2(config-if)#ipv6 address 2001:db8:acad:2::2/64
+R2(config-if)#exit
+R2(config)#interface gigabitEthernet 0/0/1
+R2(config-if)#ipv6 address fe80::1 link-local 
+R2(config-if)#ipv6 address 2001:db8:acad:3::1/64
+R2(config-if)#
+```
+b.	Настройте маршрут по умолчанию на каждом маршрутизаторе, который указывает на IP-адрес G0/0/0 на другом маршрутизаторе.
+Маршрутизатор R1
+```
+R1(config)#ipv6 route ::/0 2001:DB8:ACAD:2::2
+R1(config)#
+```
+Маршрутизатор R2
+```
+R2(config)#ipv6 route ::/0 2001:DB8:ACAD:2::1
+R2(config)#
+```
+c.	Убедитесь, что маршрутизация работает с помощью пинга адреса G0/0/1 R2 из R1
+
+Прежде чем выполнить этот пункт, нам потребуется включить интерфейсы G0/0/0 и G0/0/1 на обоих маршрутизаторах, так как "из коробки" они выключены.
+Для этого на обоих маршрутизаторах выполняем:
+```
+R1(config)#interface range gigabitEthernet 0/0/0-1
+R1(config-if-range)#no shutdown 
+R1(config-if-range)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
+
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1, changed state to up
+
+R1(config-if-range)#
+```
+Теперь проверяем работу маршрутизации.
+
+![](./images/lab_08_v6_fig_03.png)
