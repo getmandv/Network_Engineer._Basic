@@ -300,5 +300,29 @@ R1(config-if)#
 ![](./images/lab_08_v6_fig_09.png)
 ### Шаг 2. Настройте R2 в качестве агента DHCP-ретрансляции для локальной сети на G0/0/1.
 CPT не поддерживает функционал ipv6 dhcp relay, в связи с этим произведём настройку DHCPv6 на маршрутизаторе R2.
+Однако прежде удалим созданный на коммутаторе R1 пул DHCPv6 и его привязку к интерфейсу g0/0/0.
 ```
+R1(config)#no ipv6 dhcp pool R2-STATEFUL
+R1(config)#interface gigabitEthernet 0/0/0
+R1(config-if)#no ipv6 dhcp server R2-STATEFUL
+R1(config-if)#
+```
+Теперь настроим пул DHCPv6 на коммутаторе R2 для интерфейса G0/0/1.
+```
+R2(config)#ipv6 dhcp pool R2-STATEFUL
+R2(config-dhcpv6)#address prefix 2001:db8:acad:3:aaa::/80
+R2(config-dhcpv6)#dns-server 2001:db8:acad::254
+R2(config-dhcpv6)#domain-name STATEFUL.com
+R2(config-dhcpv6)#exit
+R2(config)#interface g0/0/1
+R2(config-if)#ipv6 dhcp server R2-STATEFUL
+R2(config-if)#ipv6 nd managed-config-flag
+R2(config-if)#
+```
+### Шаг 3. Попытка получить адрес IPv6 из DHCPv6 на PC-B.
+- a.	Перезапустите PC-B.
 
+ПК PC-B перезапущен.
+- b.	Откройте командную строку на PC-B и выполните команду ipconfig /all и проверьте выходные данные, чтобы увидеть результаты операции ретрансляции DHCPv6.
+
+![](./images/lab_08_v6_fig_09.png)
