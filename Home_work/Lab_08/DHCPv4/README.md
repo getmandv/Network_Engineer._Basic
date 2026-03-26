@@ -420,3 +420,194 @@ S2(config-if-range)#
 ```
 ### Шаг 8.	Назначьте сети VLAN соответствующим интерфейсам коммутатора.
 - a.	Назначьте используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настройте их для режима статического доступа.
+*Коммутатор S1*
+```
+S1(config)#interface fastEthernet 0/6
+S1(config-if)#switchport access vlan 100
+S1(config-if)#switchport mode access 
+S1(config-if)#switchport nonegotiate
+S1(config-if)#
+```
+*Коммутатор S2 - настроек не требуется.*
+- b.	Убедитесь, что VLAN назначены на правильные интерфейсы.
+*Коммутатор S1*
+```
+S1#show vlan brief 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/5
+100  Clients                          active    Fa0/6
+200  Management                       active    
+999  Parking_Lot                      active    Fa0/1, Fa0/2, Fa0/3, Fa0/4
+                                                Fa0/7, Fa0/8, Fa0/9, Fa0/10
+                                                Fa0/11, Fa0/12, Fa0/13, Fa0/14
+                                                Fa0/15, Fa0/16, Fa0/17, Fa0/18
+                                                Fa0/19, Fa0/20, Fa0/21, Fa0/22
+                                                Fa0/23, Fa0/24, Gig0/1, Gig0/2
+1000 Native                           active    
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+S1#
+```
+*Коммутатор S2*
+```
+S2#show vlan brief 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1, Fa0/2, Fa0/3, Fa0/4
+                                                Fa0/5, Fa0/6, Fa0/7, Fa0/8
+                                                Fa0/9, Fa0/10, Fa0/11, Fa0/12
+                                                Fa0/13, Fa0/14, Fa0/15, Fa0/16
+                                                Fa0/17, Fa0/18, Fa0/19, Fa0/20
+                                                Fa0/21, Fa0/22, Fa0/23, Fa0/24
+                                                Gig0/1, Gig0/2
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+S2#
+```
+- Почему интерфейс F0/5 указан в VLAN 1?
+
+*Для интерфейса F0/5 ещё не производилось настроек ни на одном коммутаторе.*
+### Шаг 9.	Вручную настройте интерфейс S1 F0/5 в качестве транка 802.1Q.
+- a.	Измените режим порта коммутатора, чтобы принудительно создать магистральный канал.
+- b.	В рамках конфигурации транка  установите для native  VLAN значение 1000.
+- c.	В качестве другой части конфигурации магистрали укажите, что VLAN 100, 200 и 1000 могут проходить по транку.
+- d.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+```
+S1(config)#interface fastEthernet 0/5
+S1(config-if)#switchport mode trunk
+
+S1(config-if)#
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/5, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/5, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan200, changed state to up
+
+S1(config-if)#switchport trunk native vlan 1000
+S1(config-if)#switchport trunk allowed vlan 100,200,1000
+S1(config-if)#switchport nonegotiate
+S1(config-if)#end
+S1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+S1#wr
+Building configuration...
+[OK]
+S1#
+```
+- e.	Проверьте состояние транка.
+```
+S1#show interfaces trunk
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/5       on           802.1q         trunking      1000
+
+Port        Vlans allowed on trunk
+Fa0/5       100,200,1000
+
+Port        Vlans allowed and active in management domain
+Fa0/5       100,200,1000
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Fa0/5       100,200,1000
+
+S1#
+```
+- Какой IP-адрес был бы у ПК, если бы он был подключен к сети с помощью DHCP?
+
+*IP-адрес полученный от DHCP сервера.*
+## Часть 2.	Настройка и проверка двух серверов DHCPv4 на R1.
+### Шаг 1.	Настройте R1 с пулами DHCPv4 для двух поддерживаемых подсетей. Ниже приведен только пул DHCP для подсети A.
+- a.	Исключите первые пять используемых адресов из каждого пула адресов.
+- b.	Создайте пул DHCP (используйте уникальное имя для каждого пула).
+- c.	Укажите сеть, поддерживающую этот DHCP-сервер.
+- d.	В качестве имени домена укажите CCNA-lab.com.
+- e.	Настройте соответствующий шлюз по умолчанию для каждого пула DHCP.
+```
+R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.5
+R1(config)#ip dhcp excluded-address 192.168.1.97 192.168.1.101
+R1(config)#ip dhcp pool Subnet_A
+R1(dhcp-config)#network 192.168.1.0 255.255.255.192
+R1(dhcp-config)#domain-name CCNA-lab.com
+R1(dhcp-config)#default-router 192.168.1.1
+R1(dhcp-config)#
+```
+- f.	Настройте время аренды на 2 дня 12 часов и 30 минут.
+ 
+*В предоставленной версии CPT маршрутизатор "не знает" о команде lease. Тем не менее, настройка аренды выглядила бы следующим образом "lease 2 12 30".*
+- g.	Затем настройте второй пул DHCPv4, используя имя пула R2_Client_LAN и вычислите сеть, маршрутизатор по умолчанию, и используйте то же имя домена и время аренды, что и предыдущий пул DHCP.
+```
+R1(config)#ip dhcp pool R2_Client_LAN
+R1(dhcp-config)#net
+R1(dhcp-config)#network 192.168.1.96 255.255.255.240
+R1(dhcp-config)#domain-name CCNA-lab.com
+R1(dhcp-config)#default-router 192.168.1.97
+R1(dhcp-config)#
+```
+### Шаг 2.	Сохраните конфигурацию.
+```
+R1#wr
+Building configuration...
+[OK]
+R1#
+```
+### Шаг 3.	Проверка конфигурации сервера DHCPv4.
+- a.	Чтобы просмотреть сведения о пуле, выполните команду show ip dhcp pool.
+```
+R1#show ip dhcp pool 
+
+Pool Subnet_A :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 62
+ Leased addresses               : 0
+ Excluded addresses             : 2
+ Pending event                  : none
+
+ 1 subnet is currently in the pool
+ Current index        IP address range                    Leased/Excluded/Total
+ 192.168.1.1          192.168.1.1      - 192.168.1.62      0    / 2     / 62
+
+Pool R2_Client_LAN :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 14
+ Leased addresses               : 0
+ Excluded addresses             : 2
+ Pending event                  : none
+
+ 1 subnet is currently in the pool
+ Current index        IP address range                    Leased/Excluded/Total
+ 192.168.1.97         192.168.1.97     - 192.168.1.110     0    / 2     / 14
+R1#
+```
+- b.	Выполните команду show ip dhcp bindings для проверки установленных назначений адресов DHCP.
+```
+R1#show ip dhcp binding
+IP address       Client-ID/              Lease expiration        Type
+                 Hardware address
+R1#
+```
+- c.	Выполните команду show ip dhcp server statistics для проверки сообщений DHCP.
+
+*В предоставленной версии CPT маршрутизатор "не знает" о команде "show ip dhcp server statistics".*
+### Шаг 4.	Попытка получить IP-адрес от DHCP на PC-A.
+- a.	Из командной строки компьютера PC-A выполните команду ipconfig /all.
+![](./images/lab_08_fig_04.png)
+- b.	После завершения процесса обновления выполните команду ipconfig для просмотра новой информации об IP-адресе.
+
+*Что бы инициировать процесс получения IP-адреса предварительно выполняю команду "ipconfig /renew", уже после которой выполняю команду "ipconfig".
+
+![](./images/lab_08_fig_05.png)
+
+- c.	Проверьте подключение с помощью пинга IP-адреса интерфейса R0 G0/0/1.
+
+*В методичке опечатка, речь идёт о R1, а не о R0.*
+
+![](./images/lab_08_fig_06.png)
