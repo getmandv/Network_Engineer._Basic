@@ -24,34 +24,69 @@
 ![](./images/lab_09_fig_02.png)
 
 - b.	Инициализация устройств
+
 *Устройства "из корробки", инициализация не требуется.*
 ### Шаг 2. Настройте маршрутизатор R1.
 - a.	Загрузите следующий конфигурационный скрипт на R1.
+
+*Я опасался что какая то из команд в скрипте может не поддерживаться CPT, и для собственного большего понимания происходящего я грузил скрипт построчно.*
 ```
+Router>enable
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname R1
+R1(config)#no ip domain lookup
+R1(config)#ip dhcp excluded-address 192.168.10.1 192.168.10.9
+R1(config)#ip dhcp excluded-address 192.168.10.201 192.168.10.202
+R1(config)#ip dhcp relay information trust-all
+R1(config)#ip dhcp pool Students
+R1(dhcp-config)#network 192.168.10.0 255.255.255.0
+R1(dhcp-config)#default-router 192.168.10.1
+R1(dhcp-config)#domain-name CCNA2.Lab-11.6.1
+R1(dhcp-config)#interface Loopback0
 
+R1(config-if)#
+%LINK-5-CHANGED: Interface Loopback0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback0, changed state to up
+R1(config-if)#ip address 10.10.1.1 255.255.255.0
+R1(config-if)#interface GigabitEthernet0/0/1
+R1(config-if)#description Link to S1
+R1(config-if)#ip address 192.168.10.1 255.255.255.0
+R1(config-if)#no shutdown
+
+R1(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1, changed state to up
+
+R1(config-if)#line con 0
+R1(config-line)#logging synchronous
+R1(config-line)#exec-timeout 0 0
+R1(config-line)#
 ```
+- b.	Проверьте текущую конфигурацию на R1, используя следующую команду: show ip interface brief
+```
+R1#show ip interface brief 
+Interface              IP-Address      OK? Method Status                Protocol 
+GigabitEthernet0/0/0   unassigned      YES unset  administratively down down 
+GigabitEthernet0/0/1   192.168.10.1    YES manual up                    up 
+Loopback0              10.10.1.1       YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
+R1#
+```
+- c.	Убедитесь, что IP-адресация и интерфейсы находятся в состоянии up / up (при необходимости устраните неполадки).
+```
+GigabitEthernet0/0/1   192.168.10.1    YES manual up                    up 
+Loopback0              10.10.1.1       YES manual up                    up
+```
+*Интересующие нас интерфейсы вклюбчены и работают. IP адресация настроена.*
+###  Шаг 3. Настройка и проверка основных параметров коммутатора
+- a.	Настройте имя хоста для коммутаторов S1 и S2.
+- b.	Запретите нежелательный поиск в DNS.
+- c.	Настройте описания интерфейса для портов, которые используются в S1 и S2.
+- d.	Установите для шлюза по умолчанию для VLAN управления значение 192.168.10.1 на обоих коммутаторах.
 
-
-
-
-###  Шаг 3. Настройте базовые параметры каждого коммутатора.
-a.	Присвойте коммутатору имя устройства.
-
-b.	Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
-
-c.	Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
-
-d.	Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
-
-e.	Установите cisco в качестве пароля виртуального терминала и активируйте вход.
-
-f.	Зашифруйте открытые пароли.
-
-g.	Создайте баннер с предупреждением о запрете несанкционированного доступа к устройству.
-
-h.	Настройте на коммутаторах время.
-
-i.	Сохранение текущей конфигурации в качестве начальной.
 
 Коммутатор S1
 ```
