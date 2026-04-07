@@ -86,248 +86,52 @@ Loopback0              10.10.1.1       YES manual up                    up
 - b.	Запретите нежелательный поиск в DNS.
 - c.	Настройте описания интерфейса для портов, которые используются в S1 и S2.
 - d.	Установите для шлюза по умолчанию для VLAN управления значение 192.168.10.1 на обоих коммутаторах.
-
-
-Коммутатор S1
+*Коммутатор S1*
 ```
 Switch>en
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#hostname S1
 S1(config)#no ip domain-lookup
-S1(config)#enable secret class
-S1(config)#line con 0
-S1(config-line)#password cisco
-S1(config-line)#login
-S1(config-line)#exit
-S1(config)#line vty 0 15
-S1(config-line)#password cisco
-S1(config-line)#login
-S1(config-line)#exit
-S1(config)#service password-encryption
-S1(config)#banner motd #
-Enter TEXT message.  End with the character '#'.
-This is S1 switch.
-Authorized Users Only!#
-
-S1(config)#exit
-S1#
-%SYS-5-CONFIG_I: Configured from console by console
-
-S1#clock set 16:40:00 Feb 23 2026
-S1#wr
-Building configuration...
-[OK]
-S1#
+S1(config)#interface FastEthernet0/1
+S1(config-if)#description To S2
+S1(config-if)#interface FastEthernet0/5
+S1(config-if)#description To R1
+S1(config-if)#interface FastEthernet0/6
+S1(config-if)#description To PC-A
+S1(config-if)#exit
+S1(config)#ip default-gateway 192.168.10.1
+S1(config)#
 ```
-Коммутатор S2
+*Коммутатор S2*
 ```
 Switch>en
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#hostname S2
-S2(config)#no ip domain-lookup
-S2(config)#enable secret class
-S2(config)#line con 0
-S2(config-line)#password cisco
-S2(config-line)#login
-S2(config-line)#exit
-S2(config)#line vty 0 15
-S2(config-line)#password cisco
-S2(config-line)#login
-S2(config-line)#exit
-S2(config)#service password-encryption
-S2(config)#banner motd #
-Enter TEXT message.  End with the character '#'.
-This is S2 switch.
-Authorized Users Only!#
-
-S2(config)#exit
-S2#
-%SYS-5-CONFIG_I: Configured from console by console
-
-S2#clock set 16:49:00 Feb 23 2026
-S2#wr
-Building configuration...
-[OK]
-S2#
-```
-###  Шаг 4. Настройте узлы ПК.
-ПК PC-A
-
-![](./images/lab_06_fig_03.png)
-
-ПК PC-B
-
-![](./images/lab_06_fig_04.png)
-## Часть 2. Создание сетей VLAN и назначение портов коммутатора.
-###  Шаг 1. Создайте сети VLAN на коммутаторах.
-a.	Создайте и назовите необходимые VLAN на каждом коммутаторе из таблицы выше.
-
-Коммутатор S1
-```
-S1(config)#vlan 10
-S1(config-vlan)#name Management
-S1(config-vlan)#exit
-S1(config)#vlan 20
-S1(config-vlan)#name Sales
-S1(config)#vlan 30
-S1(config-vlan)#name Operations
-S1(config-vlan)#exit
-S1(config)#vlan 999
-S1(config-vlan)#name Parking_Lot
-S1(config-vlan)#
-```
-Коммутатор S2
-```
-S2(config)#vlan 10
-S2(config-vlan)#name Management
-S2(config-vlan)#exit
-S2(config)#vlan 30
-S2(config-vlan)#name Operations
-S2(config-vlan)#exit
-S2(config)#vlan
-S2(config)#vlan 999
-S2(config-vlan)#name Parking_Lot
-S2(config-vlan)#
-```
-b.	Настройте интерфейс управления и шлюз по умолчанию на каждом коммутаторе, используя информацию об IP-адресе в таблице адресации. 
-
-Коммутатор S1
-```
-S1(config)#interface vlan 10
-S1(config-if)#
-%LINK-5-CHANGED: Interface Vlan10, changed state to up
-
-S1(config-if)#ip address 192.168.10.11 255.255.255.0
-S1(config-if)#no shutdown
-S1(config-if)#exit
-S1(config)#ip default-gateway 192.168.10.1
-```
-Коммутатор S2
-```
-S2(config)#interface vlan 10
-S2(config-if)#
-%LINK-5-CHANGED: Interface Vlan10, changed state to up
-
-S2(config-if)#ip address 192.168.10.12 255.255.255.0
-S2(config-if)#no shutdown 
+S2(config)#no ip domain-lookup 
+S2(config)#interface fastEthernet 0/1
+S2(config-if)#description To S1
+S2(config-if)#interface fastEthernet 0/18
+S2(config-if)#description To PC-B
 S2(config-if)#exit
 S2(config)#ip default-gateway 192.168.10.1
 S2(config)#
 ```
-c.	Назначьте все неиспользуемые порты коммутатора VLAN Parking_Lot, настройте их для статического режима доступа и административно деактивируйте их.
-
-Коммутатор S1
+## Часть 2. Настройка сетей VLAN на коммутаторах.
+###  Шаг 1. Сконфигруриуйте VLAN 10.
+- Добавьте VLAN 10 на S1 и S2 и назовите VLAN - Management.
+*Коммутатор S1*
 ```
-S1(config)#interface range f0/2-4, f0/7-24, g0/1-2
-S1(config-if-range)#switchport access vlan 999
-S1(config-if-range)#switchport mode access 
-S1(config-if-range)#shutdown 
 
-%LINK-5-CHANGED: Interface FastEthernet0/2, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/3, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/4, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/7, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/8, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/9, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/10, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/11, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/12, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/13, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/14, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/15, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/16, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/17, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/18, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/19, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/20, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/21, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/22, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/23, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/24, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratively down
-S1(config-if-range)#
 ```
-Коммутатор S2
+*Коммутатор S2*
 ```
-S2(config)#interface range f0/2-17, f0/19-24, g0/1-2
-S2(config-if-range)#switchport access vlan 999
-S2(config-if-range)#switchport mode access
-S2(config-if-range)#shutdown
 
-%LINK-5-CHANGED: Interface FastEthernet0/2, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/3, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/4, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/5, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/6, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/7, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/8, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/9, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/10, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/11, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/12, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/13, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/14, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/15, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/16, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/17, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/19, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/20, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/21, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/22, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/23, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/24, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratively down
-S2(config-if-range)#
 ```
+
+
+
 ###  Шаг 2. Назначьте сети VLAN соответствующим интерфейсам коммутатора.
 
 Коммутатор S1
