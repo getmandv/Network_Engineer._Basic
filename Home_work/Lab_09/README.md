@@ -15,7 +15,8 @@
 1. [Часть 1. Настройка основного сетевого устройства.]()
 2. [Часть 2. Настройка сетей VLAN.]()
 3. [Часть 3: Настройки безопасности коммутатора.]()
-4. Файлы Cisco Packet Tracer
+4. [Вопросы для повторения]()
+5. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/pkt/lab_09.pkt)
 ## Часть 1. Настройка основного сетевого устройства
 ###  Шаг 1. Создайте сеть.
@@ -588,3 +589,108 @@ MacAddress          IpAddress        Lease(sec)  Type           VLAN  Interface
 Total number of bindings: 1
 S2#
 ```
+## Шаг 6. Реализация PortFast и BPDU Guard
+- a.	Настройте PortFast на всех портах доступа, которые используются на обоих коммутаторах.
+*Коммутатор S1*
+```
+S1(config)#interface range fastEthernet 0/5-6
+S1(config-if-range)#spanning-tree portfast
+%Warning: portfast should only be enabled on ports connected to a single
+host. Connecting hubs, concentrators, switches, bridges, etc... to this
+interface  when portfast is enabled, can cause temporary bridging loops.
+Use with CAUTION
+
+%Portfast has been configured on FastEthernet0/5 but will only
+have effect when the interface is in a non-trunking mode.
+%Warning: portfast should only be enabled on ports connected to a single
+host. Connecting hubs, concentrators, switches, bridges, etc... to this
+interface  when portfast is enabled, can cause temporary bridging loops.
+Use with CAUTION
+
+%Portfast has been configured on FastEthernet0/6 but will only
+have effect when the interface is in a non-trunking mode.
+S1(config-if-range)#
+```
+*Коммутатор S2*
+```
+S2(config)#interface fastEthernet 0/18
+S2(config-if)#spanning-tree portfast
+%Warning: portfast should only be enabled on ports connected to a single
+host. Connecting hubs, concentrators, switches, bridges, etc... to this
+interface  when portfast is enabled, can cause temporary bridging loops.
+Use with CAUTION
+
+%Portfast has been configured on FastEthernet0/18 but will only
+have effect when the interface is in a non-trunking mode.
+S2(config-if)#
+```
+- b.	Включите защиту BPDU на портах доступа VLAN 10 S1 и S2, подключенных к PC-A и PC-B.
+*Коммутатор S1*
+```
+S1(config)#interface fastEthernet 0/6
+S1(config-if)#spanning-tree bpduguard enable
+S1(config-if)#
+```
+*Коммутатор S2*
+```
+S2(config)#interface fastEthernet 0/18
+S2(config-if)#spanning-tree bpduguard enable
+S2(config-if)#
+```
+- c.	Убедитесь, что защита BPDU и PortFast включены на соответствующих портах.
+*Коммутатор S1*
+```
+S1#show spanning-tree interface f0/6 detail
+
+
+
+Port 6 (FastEthernet0/6) of VLAN0010 is designated forwarding
+  Port path cost 19, Port priority 128, Port Identifier 128.6
+  Designated root has priority 32778, address 0002.4AA3.4B98
+  Designated bridge has priority 32778, address 0002.4AA3.4B98
+  Designated port id is 128.6, designated path cost 19
+  Timers: message age 16, forward delay 0, hold 0
+  Number of transitions to forwarding state: 1
+  The port is in the portfast mode
+  Link type is point-to-point by default
+
+
+S1#
+```
+*Коммутатор S2*
+```
+S2#show spanning-tree interface f0/18 detail
+
+
+
+Port 18 (FastEthernet0/18) of VLAN0010 is designated forwarding
+  Port path cost 19, Port priority 128, Port Identifier 128.18
+  Designated root has priority 32778, address 0002.4AA3.4B98
+  Designated bridge has priority 32778, address 0050.0F98.3AC9
+  Designated port id is 128.18, designated path cost 19
+  Timers: message age 16, forward delay 0, hold 0
+  Number of transitions to forwarding state: 1
+  The port is in the portfast mode
+  Link type is point-to-point by default
+
+
+S2#
+```
+*Стоит отметить что BPDU guard включен, однако в CPT не реализован вывод об этом. Тем не менее, то что он включен видно в общем конфиге.*
+## Шаг 7. Проверьте наличие сквозного ⁪подключения.
+*В качестве демонстрации связи между всеми устройствами продемонстрирую пинг всех IP адресов с самого дальнего от маршрутизатора устройства ПК PC-B*
+
+![](./images/lab_09_fig_04.png)
+
+## Вопросы для повторения
+- 1.	С точки зрения безопасности порта на S2, почему нет значения таймера для оставшегося возраста в минутах, когда было сконфигурировано динамическое обучение - sticky?
+
+*В данном случае таймер не имеет смысла, так как изученый адрес сохраняется в основной конфигурации.
+
+- 2.	Что касается безопасности порта на S2, если вы загружаете скрипт текущей конфигурации на S2, почему порту 18 на PC-B никогда не получит IP-адрес через DHCP?
+
+*Если мы загрузим скрипт текущей конфигруации на S2, в текущей схеме, всё будет работать. Даже если этот скрипт загрузить в коммутатор на аналогичной схеме, то всё равно всё отработает так как лимит адресов для изучения у нас установлен 2, что позволит новому MAC-адресу попасть в конфиг.*
+
+- 3.	Что касается безопасности порта, в чем разница между типом абсолютного устаревания и типом устаревание по неактивности?
+
+*Абсолютное устаревание - таймер устаревания срабатывает сразу после изучения адреса и не прерывается. Устаревание по неактивности - таймер запускается только тогда, когда устройство пересатёт передавать трафик.*	
