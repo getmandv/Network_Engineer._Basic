@@ -546,24 +546,45 @@ S2#
 ### Шаг 5. Реализовать безопасность DHCP snooping.
 - a.	На S2 включите DHCP snooping и настройте DHCP snooping во VLAN 10.
 ```
+S2(config)#ip dhcp snooping 
+S2(config)#ip dhcp snooping vlan 10
+S2(config)#
 ```
-
-
-
-
-
-
-b.	Отправьте эхо-запрос с PC-A на PC-B.
-
-c.	Отправьте команду ping с компьютера PC-A на коммутатор S2.
-
-![](./images/lab_06_fig_05.png)
-
-### Шаг 2. Пройдите следующий тест с PC-B
-- В окне командной строки на PC-B выполните команду tracert на адрес PC-A.
-
-![](./images/lab_06_fig_06.png)
-
-- Какие промежуточные IP-адреса отображаются в результатах?
-
-192.168.30.1 это шлюз для ПК PC-B (Адрес назначен для одного из сабинтерфейсов маршрутизатора g/0/0/1.30)
+- b.	Настройте магистральные порты на S2 как доверенные порты.
+```
+S2(config)#interface fastEthernet 0/1
+S2(config-if)#ip dhcp snooping trust 
+S2(config-if)#
+```
+- c.	Ограничьте ненадежный порт Fa0/18 на S2 пятью DHCP-пакетами в секунду.
+```
+S2(config)#interface fastEthernet 0/18
+S2(config-if)#ip dhcp snooping limit rate 5
+S2(config-if)#
+```
+- d.	Проверка DHCP Snooping на S2.
+```
+S2#show ip dhcp snooping
+Switch DHCP snooping is enabled
+DHCP snooping is configured on following VLANs:
+10
+Insertion of option 82 is enabled
+Option 82 on untrusted port is not allowed
+Verification of hwaddr field is enabled
+Interface                  Trusted    Rate limit (pps)
+-----------------------    -------    ----------------
+FastEthernet0/1            yes        unlimited       
+FastEthernet0/18           no         5               
+S2#
+```
+- e.	В командной строке на PC-B освободите, а затем обновите IP-адрес.
+![](./images/lab_09_fig_03.png)
+- f.	Проверьте привязку отслеживания DHCP с помощью команды show ip dhcp snooping binding.
+```
+S2#show ip dhcp snooping binding 
+MacAddress          IpAddress        Lease(sec)  Type           VLAN  Interface
+------------------  ---------------  ----------  -------------  ----  -----------------
+00:60:3E:20:94:B0   192.168.10.11    0           dhcp-snooping  10    FastEthernet0/18
+Total number of bindings: 1
+S2#
+```
