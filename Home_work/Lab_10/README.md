@@ -1,88 +1,34 @@
 # Настройка протокола OSPFv2 для одной области.
 ### Дано:
 ###	Топология
-![](./images/lab_09_fig_01.png)
+![](./images/lab_10_fig_01.png)
 ###	Таблица адресации
-|Устройство|interface/vlan|IP-адрес      |Маска подсети|
-|----------|--------------|--------------|-------------|
-|R1        |G0/0/1        |192.168.10.1  |255.255.255.0|
-|R1        |Loopback 0    |10.10.1.1     |255.255.255.0|
-|S1        |VLAN 10       |192.168.10.201|255.255.255.0|
-|S2        |VLAN 10       |192.168.10.202|255.255.255.0|
-|PC-A      |NIC           |DHCP          |255.255.255.0|
-|PC-B      |NIC           |DHCP          |255.255.255.0|
+|Устройство|Интерфейс|IP-адрес   |Маска подсети|
+|----------|---------|-----------|-------------|
+|R1        |G0/0/1   |10.53.0.1  |255.255.255.0|
+|R1        |Loopback1|172.16.1.1 |255.255.255.0|
+|R2        |G0/0/1   |10.53.0.2  |255.255.255.0|
+|R2        |Loopback1|192.168.1.1|255.255.255.0|
 ### Задание:
-1. [Часть 1. Настройка основного сетевого устройства.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-1-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%BE%D0%B3%D0%BE-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D0%BE%D0%B3%D0%BE-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%B0)
-2. [Часть 2. Настройка сетей VLAN.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-2-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D1%81%D0%B5%D1%82%D0%B5%D0%B9-vlan-%D0%BD%D0%B0-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D1%85)
-3. [Часть 3: Настройки безопасности коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-3-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8-%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0)
-4. [Вопросы для повторения](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/README.md#%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%B5%D0%BD%D0%B8%D1%8F)
-5. Файлы Cisco Packet Tracer
+1. [Часть 1. Создание сети и настройка основных параметров устройства.]()
+2. [Часть 2. Настройка и проверка базовой работы протокола  OSPFv2 для одной области.]()
+3. [Часть 3: Оптимизация и проверка конфигурации OSPFv2 для одной области.]()
+4. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/pkt/lab_09.pkt)
-## Часть 1. Настройка основного сетевого устройства
-###  Шаг 1. Создайте сеть.
-- a.	Создайте сеть согласно топологии.
+## Часть 1. Создание сети и настройка основных параметров устройства.
+###  Шаг 1. Создайте сеть согласно топологии.
+![](./images/lab_10_fig_02.png)
+### Шаг 2. Произведите базовую настройку маршрутизаторов.
+- a.	Назначьте маршрутизатору имя устройства.
+- b.	Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+- c.	Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
+- d.	Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+- e.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+- f.	Зашифруйте открытые пароли.
+- g.	Создайте баннер с предупреждением о запрете несанкционированного доступа к устройству.
+- h.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
-![](./images/lab_09_fig_02.png)
-
-- b.	Инициализация устройств
-
-*Устройства "из корробки", инициализация не требуется.*
-### Шаг 2. Настройте маршрутизатор R1.
-- a.	Загрузите следующий конфигурационный скрипт на R1.
-
-*Я опасался что какая то из команд в скрипте может не поддерживаться CPT, и для собственного большего понимания происходящего я грузил скрипт построчно.*
-```
-Router>enable
-Router#configure terminal
-Enter configuration commands, one per line.  End with CNTL/Z.
-Router(config)#hostname R1
-R1(config)#no ip domain lookup
-R1(config)#ip dhcp excluded-address 192.168.10.1 192.168.10.9
-R1(config)#ip dhcp excluded-address 192.168.10.201 192.168.10.202
-R1(config)#ip dhcp relay information trust-all
-R1(config)#ip dhcp pool Students
-R1(dhcp-config)#network 192.168.10.0 255.255.255.0
-R1(dhcp-config)#default-router 192.168.10.1
-R1(dhcp-config)#domain-name CCNA2.Lab-11.6.1
-R1(dhcp-config)#interface Loopback0
-
-R1(config-if)#
-%LINK-5-CHANGED: Interface Loopback0, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback0, changed state to up
-R1(config-if)#ip address 10.10.1.1 255.255.255.0
-R1(config-if)#interface GigabitEthernet0/0/1
-R1(config-if)#description Link to S1
-R1(config-if)#ip address 192.168.10.1 255.255.255.0
-R1(config-if)#no shutdown
-
-R1(config-if)#
-%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1, changed state to up
-
-R1(config-if)#line con 0
-R1(config-line)#logging synchronous
-R1(config-line)#exec-timeout 0 0
-R1(config-line)#
-```
-- b.	Проверьте текущую конфигурацию на R1, используя следующую команду: show ip interface brief
-```
-R1#show ip interface brief 
-Interface              IP-Address      OK? Method Status                Protocol 
-GigabitEthernet0/0/0   unassigned      YES unset  administratively down down 
-GigabitEthernet0/0/1   192.168.10.1    YES manual up                    up 
-Loopback0              10.10.1.1       YES manual up                    up 
-Vlan1                  unassigned      YES unset  administratively down down
-R1#
-```
-- c.	Убедитесь, что IP-адресация и интерфейсы находятся в состоянии up / up (при необходимости устраните неполадки).
-```
-GigabitEthernet0/0/1   192.168.10.1    YES manual up                    up 
-Loopback0              10.10.1.1       YES manual up                    up
-```
-*Интересующие нас интерфейсы вклюбчены и работают. IP адресация настроена.*
-###  Шаг 3. Настройка и проверка основных параметров коммутатора
+### Шаг 3. Настройка и проверка основных параметров коммутатора
 - a.	Настройте имя хоста для коммутаторов S1 и S2.
 - b.	Запретите нежелательный поиск в DNS.
 - c.	Настройте описания интерфейса для портов, которые используются в S1 и S2.
