@@ -1,2 +1,11 @@
 # Network_Engineer._Basic
-- [01, Базовая настройка коммутатора.]([https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-1-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B5%D1%82%D0%B8-%D0%B8-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BA-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md))
+- [01. Базовая настройка коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_01/README.md)
+- [02. Просмотр таблицы MAC-адресов коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_02/README.md)
+- [03. Расчет подсетей IPv4.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_03/README.md)
+- [04. Настройка IPv6-адресов на сетевых устройствах.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_04/README.md)
+- [05. Доступ к сетевым устройствам по протоколу SSH.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_05/README.md)
+- [06. Внедрение маршрутизации между виртуальными локальными сетями.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_06/README.md)
+- [07. Развертывание коммутируемой сети с резервными каналами.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_07/README.md)
+- [08. Настройка DHCP.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_08/README.md)
+- [09. Конфигурация безопасности коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/README.md)
+- [10. Настройка протокола OSPFv2 для одной области.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_10/README.md)
