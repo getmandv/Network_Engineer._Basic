@@ -27,12 +27,47 @@
 - f.	Зашифруйте открытые пароли.
 - g.	Создайте баннер с предупреждением о запрете несанкционированного доступа к устройству.
 - h.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+*Маршрутизатор R1*
+```
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname R1
+R1(config)#no ip domain-lookup
+R1(config)#enable secret class
+R1(config)#line con 0
+R1(config-line)#password cisco
+R1(config-line)#login
+R1(config-line)#exit
+R1(config)#line vty 0 15
+R1(config-line)#password cisco
+R1(config-line)#login
+R1(config-line)#exit
+R1(config)#service password-encryption
+R1(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+This is R1 router.
+Authorized Users Only!#
 
+R1(config)#end
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#wr
+Building configuration...
+[OK]
+R1#
+```
+*Повтоярем аналогичную настройку на маршрутизаторе R2.*
 ### Шаг 3. Настройка и проверка основных параметров коммутатора
-- a.	Настройте имя хоста для коммутаторов S1 и S2.
-- b.	Запретите нежелательный поиск в DNS.
-- c.	Настройте описания интерфейса для портов, которые используются в S1 и S2.
-- d.	Установите для шлюза по умолчанию для VLAN управления значение 192.168.10.1 на обоих коммутаторах.
+- a.	Назначьте коммутатору имя устройства.
+- b.	Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+- c.	Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
+- d.	Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+- e.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+- f.	Зашифруйте открытые пароли.
+- g.	Создайте баннер с предупреждением о запрете несанкционированного доступа к устройству.
+- h.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 *Коммутатор S1*
 ```
 Switch>en
@@ -40,33 +75,69 @@ Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#hostname S1
 S1(config)#no ip domain-lookup
-S1(config)#interface FastEthernet0/1
-S1(config-if)#description To S2
-S1(config-if)#interface FastEthernet0/5
-S1(config-if)#description To R1
-S1(config-if)#interface FastEthernet0/6
-S1(config-if)#description To PC-A
-S1(config-if)#exit
-S1(config)#ip default-gateway 192.168.10.1
-S1(config)#
+S1(config)#enable secret class
+S1(config)#line con 0
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#exit
+S1(config)#line vty 0 15
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#exit
+S1(config)#service password-encryption
+S1(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+This is S1 switch.
+Authorized Users Only!#
+
+S1(config)#end
+S1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+S1#wr
+Building configuration...
+[OK]
+S1#
 ```
-*Коммутатор S2*
+*Повтоярем аналогичную настройку на коммутаторе S2.*
+## Часть 2. Настройка и проверка базовой работы протокола OSPFv2 для одной области.
+###  Шаг 1. Настройте адреса интерфейса и базового OSPFv2 на каждом маршрутизаторе.
+- a.	Настройте адреса интерфейсов на каждом маршрутизаторе, как показано в таблице адресации выше.
+
+*Маршрутизатор R1*
 ```
-Switch>en
-Switch#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-Switch(config)#hostname S2
-S2(config)#no ip domain-lookup 
-S2(config)#interface fastEthernet 0/1
-S2(config-if)#description To S1
-S2(config-if)#interface fastEthernet 0/18
-S2(config-if)#description To PC-B
-S2(config-if)#exit
-S2(config)#ip default-gateway 192.168.10.1
-S2(config)#
+R1(config)#interface gigabitEthernet 0/0/1
+R1(config-if)#ip address 10.53.0.1 255.255.255.0
+R1(config-if)#no shutdown 
+
+R1(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1, changed state to up
+
+R1(config-if)#exit
+R1(config)#interface loopback 1
+
+R1(config-if)#
+%LINK-5-CHANGED: Interface Loopback1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback1, changed state to up
+
+R1(config-if)#ip address 172.16.1.1 255.255.255.0
+R1(config-if)#
 ```
-## Часть 2. Настройка сетей VLAN на коммутаторах.
-###  Шаг 1. Сконфигруриуйте VLAN 10.
+*Не забываем включить интерфейс GigabitEthernet0/0/1 после настрйки адреса.*
+*Повтоярем аналогичную настройку на маршрутизаторе R2, с учётом соответствующих адресов.*
+- b.	Перейдите в режим конфигурации маршрутизатора OSPF, используя идентификатор процесса 56.
+```
+
+```
+
+
+
+
+
+
 - Добавьте VLAN 10 на S1 и S2 и назовите VLAN - Management.
 *Коммутатор S1*
 ```
