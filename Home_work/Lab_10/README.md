@@ -129,585 +129,76 @@ R1(config-if)#
 *Не забываем включить интерфейс GigabitEthernet0/0/1 после настрйки адреса.*
 *Повтоярем аналогичную настройку на маршрутизаторе R2, с учётом соответствующих адресов.*
 - b.	Перейдите в режим конфигурации маршрутизатора OSPF, используя идентификатор процесса 56.
-```
-
-```
-
-
-
-
-
-
-- Добавьте VLAN 10 на S1 и S2 и назовите VLAN - Management.
-*Коммутатор S1*
-```
-S1(config)#vlan 10
-S1(config-vlan)#name Management
-S1(config-vlan)#
-```
-*Коммутатор S2*
-```
-S2(config)#vlan 10
-S2(config-vlan)#name Management
-S2(config-vlan)#
-```
-### Шаг 2. Сконфигруриуйте SVI для VLAN 10.
-*Коммутатор S1*
-```
-S1(config)#interface vlan 10
-S1(config-if)#
-%LINK-5-CHANGED: Interface Vlan10, changed state to up
-
-S1(config-if)#ip address 192.168.10.201 255.255.255.0
-S1(config-if)#no shutdown 
-S1(config-if)#
-```
-*Коммутатор S2*
-```
-S2(config)#interface vlan 10
-S2(config-if)#
-%LINK-5-CHANGED: Interface Vlan10, changed state to up
-
-S2(config-if)#ip address 192.168.10.202 255.255.255.0
-S2(config-if)#no shutdown 
-S2(config-if)#
-```
-### Шаг 3. Настройте VLAN 333 с именем Native на S1 и S2.
-*Коммутатор S1*
-```
-S1(config)#vlan 333
-S1(config-vlan)#name Native
-S1(config-vlan)#
-```
-*Повторяем настройку для коммутатора S2*
-### Шаг 4. Настройте VLAN 999 с именем ParkingLot на S1 и S2.
-*Коммутатор S1*
-```
-S1(config)#vlan 999
-S1(config-vlan)#name ParkingLot
-S1(config-vlan)#
-```
-*Повторяем настройку для коммутатора S2*
-## Часть 3. Настройки безопасности коммутатора.
-### Шаг 1. Релизация магистральных соединений 802.1Q.
-- a. Настройте все магистральные порты Fa0/1 на обоих коммутаторах для использования VLAN 333 в качестве native VLAN.
-*Коммутатор S1*
-```
-S1(config)#interface fastEthernet 0/1
-S1(config-if)#switchport trunk native vlan 333
-S1(config-if)#switchport mode trunk 
-
-S1(config-if)#
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to up
-
-S1(config-if)#
-```
-*Повторяем настройку для коммутатора S2*
-- b.	Убедитесь, что режим транкинга успешно настроен на всех коммутаторах.
-*Коммутатор S1*
-```
-S1#show interfaces trunk 
-Port        Mode         Encapsulation  Status        Native vlan
-Fa0/1       on           802.1q         trunking      333
-
-Port        Vlans allowed on trunk
-Fa0/1       1-1005
-
-Port        Vlans allowed and active in management domain
-Fa0/1       1,10,333,999
-
-Port        Vlans in spanning tree forwarding state and not pruned
-Fa0/1       1,10,333,999
-
-S1#
-```
-*Коммутатор S2*
-```
-S2#show interfaces trunk 
-Port        Mode         Encapsulation  Status        Native vlan
-Fa0/1       on           802.1q         trunking      333
-
-Port        Vlans allowed on trunk
-Fa0/1       1-1005
-
-Port        Vlans allowed and active in management domain
-Fa0/1       1,10,333,999
-
-Port        Vlans in spanning tree forwarding state and not pruned
-Fa0/1       1,10,333,999
-
-S2#
-```
-- c.	Отключить согласование DTP F0/1 на S1 и S2. 
-*Коммутатор S1*
-```
-S1(config)#interface fastEthernet 0/1
-S1(config-if)#switchport nonegotiate 
-S1(config-if)#
-```
-*Повторяем настройку для коммутатора S2*
-- d.	Проверьте с помощью команды show interfaces.
-*Коммутатор S1*
-```
-S1#show interfaces fastEthernet 0/1 switchport | include Negotiation
-Negotiation of Trunking: Off
-S1#
-```
-*Коммутатор S2*
-```
-S2#show interfaces fastEthernet 0/1 switchport | include Negotiation
-Negotiation of Trunking: Off
-S2#
-```
-### Шаг 2. Настройка портов доступа.
-- a.	На S1 настройте F0/5 и F0/6 в качестве портов доступа и свяжите их с VLAN 10
-```
-S1(config)#interface range fastEthernet 0/5-6
-S1(config-if-range)#switchport access vlan 10
-S1(config-if-range)#switchport mode access 
-S1(config-if-range)#
-```
-b.	На S2 настройте порт доступа Fa0/18 и свяжите его с VLAN 10.
-```
-S2(config)#interface fastEthernet 0/18
-S2(config-if)#switchport access vlan 10
-S2(config-if)#switchport mode access 
-S2(config-if)#
-```
-### Шаг 3. Безопасность неиспользуемых портов коммутатора.
-- a.	На S1 и S2 переместите неиспользуемые порты из VLAN 1 в VLAN 999 и отключите неиспользуемые порты.
-*Коммутатор S1*
-```
-S1(config)#interface range fastEthernet 0/2-4, fastEthernet 0/7-24, gigabitEthernet 0/1-2
-S1(config-if-range)#switchport access vlan 999
-S1(config-if-range)#switchport mode access 
-S1(config-if-range)#shutdown 
-
-%LINK-5-CHANGED: Interface FastEthernet0/2, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/3, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/4, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/7, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/8, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/9, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/10, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/11, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/12, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/13, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/14, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/15, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/16, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/17, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/18, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/19, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/20, changed state to administratively down
+- c.	Настройте статический идентификатор маршрутизатора для каждого маршрутизатора (1.1.1.1 для R1, 2.2.2.2 для R2).
+- d.	Настройте инструкцию сети для сети между R1 и R2, поместив ее в область 0.
 
-%LINK-5-CHANGED: Interface FastEthernet0/21, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/22, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/23, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/24, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratively down
-S1(config-if-range)#
+*Маршрутизатор R1*
 ```
-*Коммутатор S2*
+R1(config)#router ospf 56
+R1(config-router)#router-id 1.1.1.1
+R1(config-router)#exit
+R1(config)#interface gigabitEthernet 0/0/1
+R1(config-if)#ip ospf 56 area 0
+R1(config-if)#
 ```
-S2(config)#interface range fastEthernet 0/2-17, fastEthernet 0/19-24, gigabitEthernet 0/1-2
-S2(config-if-range)#switchport access vlan 999
-S2(config-if-range)#switchport mode access 
-S2(config-if-range)#shutdown 
-
-%LINK-5-CHANGED: Interface FastEthernet0/2, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/3, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/4, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/5, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/6, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/7, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/8, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/9, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/10, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/11, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/12, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/13, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/14, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/15, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/16, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/17, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/19, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/20, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/21, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/22, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/23, changed state to administratively down
-
-%LINK-5-CHANGED: Interface FastEthernet0/24, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to administratively down
-
-%LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratively down
-S2(config-if-range)#
+*Маршрутизатор R2*
 ```
-- b.	Убедитесь, что неиспользуемые порты отключены и связаны с VLAN 999, введя команду  show.
-*Коммутатор S1*
+R2(config)#router ospf 56
+R2(config-router)#router-id 2.2.2.2
+R2(config-router)#
+R2(config-router)#exit
+R2(config)#interface gigabitEthernet 0/0/1
+R2(config-if)#ip ospf 56 area 0
+R2(config-if)#
 ```
-S1#show interfaces status 
-Port      Name               Status       Vlan       Duplex  Speed Type
-Fa0/1     To S2              connected    trunk      auto    auto  10/100BaseTX
-Fa0/2                        disabled 999        auto    auto  10/100BaseTX
-Fa0/3                        disabled 999        auto    auto  10/100BaseTX
-Fa0/4                        disabled 999        auto    auto  10/100BaseTX
-Fa0/5     To R1              connected    10         auto    auto  10/100BaseTX
-Fa0/6     To PC-A            connected    10         auto    auto  10/100BaseTX
-Fa0/7                        disabled 999        auto    auto  10/100BaseTX
-Fa0/8                        disabled 999        auto    auto  10/100BaseTX
-Fa0/9                        disabled 999        auto    auto  10/100BaseTX
-Fa0/10                       disabled 999        auto    auto  10/100BaseTX
-Fa0/11                       disabled 999        auto    auto  10/100BaseTX
-Fa0/12                       disabled 999        auto    auto  10/100BaseTX
-Fa0/13                       disabled 999        auto    auto  10/100BaseTX
-Fa0/14                       disabled 999        auto    auto  10/100BaseTX
-Fa0/15                       disabled 999        auto    auto  10/100BaseTX
-Fa0/16                       disabled 999        auto    auto  10/100BaseTX
-Fa0/17                       disabled 999        auto    auto  10/100BaseTX
-Fa0/18                       disabled 999        auto    auto  10/100BaseTX
-Fa0/19                       disabled 999        auto    auto  10/100BaseTX
-Fa0/20                       disabled 999        auto    auto  10/100BaseTX
-Fa0/21                       disabled 999        auto    auto  10/100BaseTX
-Fa0/22                       disabled 999        auto    auto  10/100BaseTX
-Fa0/23                       disabled 999        auto    auto  10/100BaseTX
-Fa0/24                       disabled 999        auto    auto  10/100BaseTX
-Gig0/1                       disabled 999        auto    auto  10/100BaseTX
-Gig0/2                       disabled 999        auto    auto  10/100BaseTX
-
-S1#
+- e.	Только на R2 добавьте конфигурацию, необходимую для объявления сети Loopback 1 в область OSPF 0.
 ```
-*Коммутатор S2*
+R2(config)#interface loopback 1
+R2(config-if)#ip ospf 56 area 0
+R2(config-if)#
 ```
-S2#show interfaces status 
-Port      Name               Status       Vlan       Duplex  Speed Type
-Fa0/1     To S1              connected    trunk      auto    auto  10/100BaseTX
-Fa0/2                        disabled 999        auto    auto  10/100BaseTX
-Fa0/3                        disabled 999        auto    auto  10/100BaseTX
-Fa0/4                        disabled 999        auto    auto  10/100BaseTX
-Fa0/5                        disabled 999        auto    auto  10/100BaseTX
-Fa0/6                        disabled 999        auto    auto  10/100BaseTX
-Fa0/7                        disabled 999        auto    auto  10/100BaseTX
-Fa0/8                        disabled 999        auto    auto  10/100BaseTX
-Fa0/9                        disabled 999        auto    auto  10/100BaseTX
-Fa0/10                       disabled 999        auto    auto  10/100BaseTX
-Fa0/11                       disabled 999        auto    auto  10/100BaseTX
-Fa0/12                       disabled 999        auto    auto  10/100BaseTX
-Fa0/13                       disabled 999        auto    auto  10/100BaseTX
-Fa0/14                       disabled 999        auto    auto  10/100BaseTX
-Fa0/15                       disabled 999        auto    auto  10/100BaseTX
-Fa0/16                       disabled 999        auto    auto  10/100BaseTX
-Fa0/17                       disabled 999        auto    auto  10/100BaseTX
-Fa0/18    To PC-B            connected    10         auto    auto  10/100BaseTX
-Fa0/19                       disabled 999        auto    auto  10/100BaseTX
-Fa0/20                       disabled 999        auto    auto  10/100BaseTX
-Fa0/21                       disabled 999        auto    auto  10/100BaseTX
-Fa0/22                       disabled 999        auto    auto  10/100BaseTX
-Fa0/23                       disabled 999        auto    auto  10/100BaseTX
-Fa0/24                       disabled 999        auto    auto  10/100BaseTX
-Gig0/1                       disabled 999        auto    auto  10/100BaseTX
-Gig0/2                       disabled 999        auto    auto  10/100BaseTX
+- f.	Убедитесь, что OSPFv2 работает между маршрутизаторами. Выполните команду, чтобы убедиться, что R1 и R2 сформировали смежность.
 
-S2#
-```
-### Шаг 4. Документирование и реализация функций безопасности порта.
-- a.	На S1, введите команду show port-security interface f0/6  для отображения настроек по умолчанию безопасности порта для интерфейса F0/6. Запишите свои ответы ниже.
-```
-S1#show port-security interface fastEthernet 0/6
-Port Security              : Disabled
-Port Status                : Secure-down
-Violation Mode             : Shutdown
-Aging Time                 : 0 mins
-Aging Type                 : Absolute
-SecureStatic Address Aging : Disabled
-Maximum MAC Addresses      : 1
-Total MAC Addresses        : 0
-Configured MAC Addresses   : 0
-Sticky MAC Addresses       : 0
-Last Source Address:Vlan   : 0000.0000.0000:0
-Security Violation Count   : 0
-S1#
-```
-- b.	На S1 включите защиту порта на F0 / 6 со следующими настройками:
-- Максимальное количество записей MAC-адресов: 3
-- Режим безопасности: restrict
-- Aging time: 60 мин.
-- Aging type: неактивный
-```
-S1(config)#interface fastEthernet 0/6
-S1(config-if)#switchport port-security 
-S1(config-if)#switchport port-security maximum 3
-S1(config-if)#switchport port-security violation restrict 
-S1(config-if)#switchport port-security aging time 60
-S1(config-if)#
+*Маршрутизатор R1*
 ```
-*Параметр "Aging Type" не реализован в CPT, настроить его не удалось*
-- c.	Verify port security on S1 F0/6.
-```
-S1#show port-security interface fastEthernet 0/6
-Port Security              : Enabled
-Port Status                : Secure-up
-Violation Mode             : Restrict
-Aging Time                 : 60 mins
-Aging Type                 : Absolute
-SecureStatic Address Aging : Disabled
-Maximum MAC Addresses      : 3
-Total MAC Addresses        : 0
-Configured MAC Addresses   : 0
-Sticky MAC Addresses       : 0
-Last Source Address:Vlan   : 0002.1612.7C83:10
-Security Violation Count   : 0
+R1#show ip ospf neighbor 
 
-S1#show port-security address
-               Secure Mac Address Table
------------------------------------------------------------------------------
-Vlan    Mac Address       Type                          Ports   Remaining Age
-                                                                   (mins)
-----    -----------       ----                          -----   -------------
-10	0002.1612.7C83	DynamicConfigured	FastEthernet0/6		-
------------------------------------------------------------------------------
-Total Addresses in System (excluding one mac per port)     : 0
-Max Addresses limit in System (excluding one mac per port) : 1024
-S1#
-```
-- d.	Включите безопасность порта для F0 / 18 на S2. Настройте каждый активный порт доступа таким образом, чтобы он автоматически добавлял адреса МАС, изученные на этом порту, в текущую конфигурацию.
-```
-S2(config-if)#switchport port-security 
-S2(config-if)#switchport port-security mac-address sticky 
-S2(config-if)#
-```
-- e.	Настройте следующие параметры безопасности порта на S2 F / 18:
-- Максимальное количество записей MAC-адресов: 2
-- Режим безопасности: Protect
-- Aging time: 60 мин.
-```
-S2(config-if)#switchport port-security maximum 2
-S2(config-if)#switchport port-security violation protect 
-S2(config-if)#switchport port-security aging time 60
-S2(config-if)#
-```
-- f.	Проверка функции безопасности портов на S2 F0/18.
-```
-S2#show port-security interface fastEthernet 0/18
-Port Security              : Enabled
-Port Status                : Secure-up
-Violation Mode             : Protect
-Aging Time                 : 60 mins
-Aging Type                 : Absolute
-SecureStatic Address Aging : Disabled
-Maximum MAC Addresses      : 2
-Total MAC Addresses        : 1
-Configured MAC Addresses   : 0
-Sticky MAC Addresses       : 1
-Last Source Address:Vlan   : 0060.3E20.94B0:10
-Security Violation Count   : 0
 
-S2#show port-security address 
-               Secure Mac Address Table
------------------------------------------------------------------------------
-Vlan    Mac Address       Type                          Ports   Remaining Age
-                                                                   (mins)
-----    -----------       ----                          -----   -------------
-  10    0060.3E20.94B0    SecureSticky                  Fa0/18       -
------------------------------------------------------------------------------
-Total Addresses in System (excluding one mac per port)     : 0
-Max Addresses limit in System (excluding one mac per port) : 1024
-S2#
-```
-### Шаг 5. Реализовать безопасность DHCP snooping.
-- a.	На S2 включите DHCP snooping и настройте DHCP snooping во VLAN 10.
-```
-S2(config)#ip dhcp snooping 
-S2(config)#ip dhcp snooping vlan 10
-S2(config)#
-```
-- b.	Настройте магистральные порты на S2 как доверенные порты.
-```
-S2(config)#interface fastEthernet 0/1
-S2(config-if)#ip dhcp snooping trust 
-S2(config-if)#
-```
-- c.	Ограничьте ненадежный порт Fa0/18 на S2 пятью DHCP-пакетами в секунду.
-```
-S2(config)#interface fastEthernet 0/18
-S2(config-if)#ip dhcp snooping limit rate 5
-S2(config-if)#
-```
-- d.	Проверка DHCP Snooping на S2.
-```
-S2#show ip dhcp snooping
-Switch DHCP snooping is enabled
-DHCP snooping is configured on following VLANs:
-10
-Insertion of option 82 is enabled
-Option 82 on untrusted port is not allowed
-Verification of hwaddr field is enabled
-Interface                  Trusted    Rate limit (pps)
------------------------    -------    ----------------
-FastEthernet0/1            yes        unlimited       
-FastEthernet0/18           no         5               
-S2#
-```
-- e.	В командной строке на PC-B освободите, а затем обновите IP-адрес.
-![](./images/lab_09_fig_03.png)
-- f.	Проверьте привязку отслеживания DHCP с помощью команды show ip dhcp snooping binding.
-```
-S2#show ip dhcp snooping binding 
-MacAddress          IpAddress        Lease(sec)  Type           VLAN  Interface
-------------------  ---------------  ----------  -------------  ----  -----------------
-00:60:3E:20:94:B0   192.168.10.11    0           dhcp-snooping  10    FastEthernet0/18
-Total number of bindings: 1
-S2#
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           1   FULL/DR         00:00:39    10.53.0.2       GigabitEthernet0/0/1
+R1#
 ```
-## Шаг 6. Реализация PortFast и BPDU Guard
-- a.	Настройте PortFast на всех портах доступа, которые используются на обоих коммутаторах.
-*Коммутатор S1*
+*Маршрутизатор R2*
 ```
-S1(config)#interface range fastEthernet 0/5-6
-S1(config-if-range)#spanning-tree portfast
-%Warning: portfast should only be enabled on ports connected to a single
-host. Connecting hubs, concentrators, switches, bridges, etc... to this
-interface  when portfast is enabled, can cause temporary bridging loops.
-Use with CAUTION
+R2#show ip ospf neighbor 
 
-%Portfast has been configured on FastEthernet0/5 but will only
-have effect when the interface is in a non-trunking mode.
-%Warning: portfast should only be enabled on ports connected to a single
-host. Connecting hubs, concentrators, switches, bridges, etc... to this
-interface  when portfast is enabled, can cause temporary bridging loops.
-Use with CAUTION
 
-%Portfast has been configured on FastEthernet0/6 but will only
-have effect when the interface is in a non-trunking mode.
-S1(config-if-range)#
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1           1   FULL/BDR        00:00:33    10.53.0.1       GigabitEthernet0/0/1
+R2#
 ```
-*Коммутатор S2*
-```
-S2(config)#interface fastEthernet 0/18
-S2(config-if)#spanning-tree portfast
-%Warning: portfast should only be enabled on ports connected to a single
-host. Connecting hubs, concentrators, switches, bridges, etc... to this
-interface  when portfast is enabled, can cause temporary bridging loops.
-Use with CAUTION
+- Какой маршрутизатор является DR?
 
-%Portfast has been configured on FastEthernet0/18 but will only
-have effect when the interface is in a non-trunking mode.
-S2(config-if)#
-```
-- b.	Включите защиту BPDU на портах доступа VLAN 10 S1 и S2, подключенных к PC-A и PC-B.
-*Коммутатор S1*
-```
-S1(config)#interface fastEthernet 0/6
-S1(config-if)#spanning-tree bpduguard enable
-S1(config-if)#
-```
-*Коммутатор S2*
-```
-S2(config)#interface fastEthernet 0/18
-S2(config-if)#spanning-tree bpduguard enable
-S2(config-if)#
-```
-- c.	Убедитесь, что защита BPDU и PortFast включены на соответствующих портах.
-*Коммутатор S1*
-```
-S1#show spanning-tree interface f0/6 detail
+*DR является маршрутизатор R2*
 
+- Какой маршрутизатор является BDR?
 
+*BDR является маршрутизатор R1*
 
-Port 6 (FastEthernet0/6) of VLAN0010 is designated forwarding
-  Port path cost 19, Port priority 128, Port Identifier 128.6
-  Designated root has priority 32778, address 0002.4AA3.4B98
-  Designated bridge has priority 32778, address 0002.4AA3.4B98
-  Designated port id is 128.6, designated path cost 19
-  Timers: message age 16, forward delay 0, hold 0
-  Number of transitions to forwarding state: 1
-  The port is in the portfast mode
-  Link type is point-to-point by default
+- Каковы критерии отбора?
 
+*Приоритет и Router ID. В нашем случае приоритет олинаковый, по этому выбор DR основывается на router id.*
 
-S1#
+- g.	На R1 выполните команду show ip route ospf, чтобы убедиться, что сеть R2 Loopback1 присутствует в таблице маршрутизации. Обратите внимание, что поведение OSPF по умолчанию заключается в объявлении интерфейса обратной связи в качестве маршрута узла с использованием 32-битной маски.
 ```
-*Коммутатор S2*
-```
-S2#show spanning-tree interface f0/18 detail
-
+R1#show ip route ospf 
+     192.168.1.0/32 is subnetted, 1 subnets
+O       192.168.1.1 [110/2] via 10.53.0.2, 4294967275:4294967253:4294967284, GigabitEthernet0/0/1
 
-
-Port 18 (FastEthernet0/18) of VLAN0010 is designated forwarding
-  Port path cost 19, Port priority 128, Port Identifier 128.18
-  Designated root has priority 32778, address 0002.4AA3.4B98
-  Designated bridge has priority 32778, address 0050.0F98.3AC9
-  Designated port id is 128.18, designated path cost 19
-  Timers: message age 16, forward delay 0, hold 0
-  Number of transitions to forwarding state: 1
-  The port is in the portfast mode
-  Link type is point-to-point by default
-
-
-S2#
+R1#
 ```
-*Стоит отметить что BPDU guard включен, однако в CPT не реализован вывод об этом. Тем не менее, то что он включен видно в общем конфиге.*
-## Шаг 7. Проверьте наличие сквозного ⁪подключения.
-*В качестве демонстрации связи между всеми устройствами продемонстрирую пинг всех IP адресов с самого дальнего от маршрутизатора устройства ПК PC-B*
-
-![](./images/lab_09_fig_04.png)
-
-## Вопросы для повторения
-- 1.	С точки зрения безопасности порта на S2, почему нет значения таймера для оставшегося возраста в минутах, когда было сконфигурировано динамическое обучение - sticky?
-
-*В данном случае таймер не имеет смысла, так как изученый адрес сохраняется в основной конфигурации.*
-
-- 2.	Что касается безопасности порта на S2, если вы загружаете скрипт текущей конфигурации на S2, почему порту 18 на PC-B никогда не получит IP-адрес через DHCP?
-
-*Если мы загрузим скрипт текущей конфигруации на S2, в текущей схеме, всё будет работать. Даже если этот скрипт загрузить в коммутатор на аналогичной схеме, то всё равно всё отработает так как лимит адресов для изучения у нас установлен 2, что позволит новому MAC-адресу попасть в конфиг.*
-
-- 3.	Что касается безопасности порта, в чем разница между типом абсолютного устаревания и типом устаревание по неактивности?
+- h.	Запустите Ping до  адреса интерфейса R2 Loopback 1 из R1. Выполнение команды ping должно быть успешным.
 
-*Абсолютное устаревание - таймер устаревания срабатывает сразу после изучения адреса и не прерывается. Устаревание по неактивности - таймер запускается только тогда, когда устройство пересатёт передавать трафик.*	
+![](./images/lab_10_fig_03.png)
+## Часть 2. Настройка и проверка базовой работы протокола OSPFv2 для одной области.
+### Шаг 1. Реализация различных оптимизаций на каждом маршрутизаторе.
