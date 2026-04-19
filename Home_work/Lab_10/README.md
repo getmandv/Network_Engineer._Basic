@@ -202,3 +202,79 @@ R1#
 ![](./images/lab_10_fig_03.png)
 ## Часть 2. Настройка и проверка базовой работы протокола OSPFv2 для одной области.
 ### Шаг 1. Реализация различных оптимизаций на каждом маршрутизаторе.
+- a.	На R1 настройте приоритет OSPF интерфейса G0/0/1 на 50, чтобы убедиться, что R1 является назначенным маршрутизатором.
+```
+R1(config)#interface gigabitEthernet 0/0/1
+R1(config-if)#ip ospf priority 50
+R1(config-if)#
+```
+- b.	Настройте таймеры OSPF на G0/0/1 каждого маршрутизатора для таймера приветствия, составляющего 30 секунд.
+
+*Маршрутизатор R1*
+```
+R1(config)#interface gigabitEthernet 0/0/1
+R1(config-if)#ip ospf hello-interval 30
+R1(config-if)#
+```
+*Повторяем настройку на маршрутизаторе R2*
+- c.	На R1 настройте статический маршрут по умолчанию, который использует интерфейс Loopback 1 в качестве интерфейса выхода. Затем распространите маршрут по умолчанию в OSPF. Обратите внимание на сообщение консоли после установки маршрута по умолчанию.
+```
+R1(config)#ip route 0.0.0.0 0.0.0.0 loopback 1
+%Default route without gateway, if not a point-to-point interface, may impact performance
+R1(config)#router ospf 56
+R1(config-router)#default-information originate 
+R1(config-router)#
+```
+- d.	добавьте конфигурацию, необходимую для OSPF для обработки R2 Loopback 1 как сети точка-точка. Это приводит к тому, что OSPF объявляет Loopback 1 использует маску подсети интерфейса.
+```
+R2(config)#interface loopback 1
+R2(config-if)#ip ospf network point-to-point 
+R2(config-if)#
+```
+- e.	Только на R2 добавьте конфигурацию, необходимую для предотвращения отправки объявлений OSPF в сеть Loopback 1.
+```
+R2(config)#router ospf 56
+R2(config-router)#passive-interface loopback 1
+R2(config-router)#
+```
+- f.	Измените базовую пропускную способность для маршрутизаторов. После этой настройки перезапустите OSPF с помощью команды clear ip ospf process . Обратите внимание на сообщение консоли после установки новой опорной полосы пропускания.
+
+*Маршрутизатор R1.*
+```
+R1(config)#router ospf 56
+R1(config-router)#auto-cost reference-bandwidth 1000
+% OSPF: Reference bandwidth is changed.
+        Please ensure reference bandwidth is consistent across all routers.
+R1(config-router)#
+```
+*Маршрутизатор R2.*
+```
+R2(config)#router ospf 56
+R2(config-router)#auto-cost reference-bandwidth 1000
+% OSPF: Reference bandwidth is changed.
+        Please ensure reference bandwidth is consistent across all routers.
+R2(config-router)#
+```
+### Шаг 2. Убедитесь, что оптимизация OSPFv2 реализовалась.
+- a.	Выполните команду show ip ospf interface g0/0/1 на R1 и убедитесь, что приоритет интерфейса установлен равным 50, а временные интервалы — Hello 30, Dead 120, а тип сети по умолчанию — Broadcast
+```
+R1#show ip ospf interface gigabitEthernet 0/0/1
+
+GigabitEthernet0/0/1 is up, line protocol is up
+  Internet address is 10.53.0.1/24, Area 0
+  Process ID 56, Router ID 1.1.1.1, Network Type BROADCAST, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 50
+  Designated Router (ID) 1.1.1.1, Interface address 10.53.0.1
+  Backup Designated Router (ID) 2.2.2.2, Interface address 10.53.0.2
+  Timer intervals configured, Hello 30, Dead 40, Wait 40, Retransmit 5
+    Hello due in 00:00:28
+  Index 1/1, flood queue length 0
+  Next 0x0(0)/0x0(0)
+  Last flood scan length is 1, maximum is 1
+  Last flood scan time is 0 msec, maximum is 0 msec
+  Neighbor Count is 1, Adjacent neighbor count is 1
+    Adjacent with neighbor 2.2.2.2  (Backup Designated Router)
+  Suppress hello for 0 neighbor(s)
+R1#
+```
+*Стоит обратить внимание что интервал Dead равен 40, а не 120, так как по ходу лабораторной работы у нас небыло задания изменить его. Тем не менее меняется он в режиме конфигурации интерфейса командой "ip ospf dead-interval"*
