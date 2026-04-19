@@ -245,7 +245,23 @@ R1(config)#router ospf 56
 R1(config-router)#auto-cost reference-bandwidth 1000
 % OSPF: Reference bandwidth is changed.
         Please ensure reference bandwidth is consistent across all routers.
-R1(config-router)#
+R1(config)#end
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#clear ip ospf process 
+Reset ALL OSPF processes? [no]: y
+
+R1#
+00:12:30: %OSPF-5-ADJCHG: Process 56, Nbr 2.2.2.2 on GigabitEthernet0/0/1 from FULL to DOWN, Neighbor Down: Adjacency forced to reset
+
+00:12:30: %OSPF-5-ADJCHG: Process 56, Nbr 2.2.2.2 on GigabitEthernet0/0/1 from FULL to DOWN, Neighbor Down: Interface down or detached
+
+00:12:40: %OSPF-5-ADJCHG: Process 56, Nbr 2.2.2.2 on GigabitEthernet0/0/1 from LOADING to FULL, Loading Done
+
+00:13:15: %OSPF-5-ADJCHG: Process 56, Nbr 2.2.2.2 on GigabitEthernet0/0/1 from LOADING to FULL, Loading Done
+
+R1#
 ```
 *Маршрутизатор R2.*
 ```
@@ -253,7 +269,21 @@ R2(config)#router ospf 56
 R2(config-router)#auto-cost reference-bandwidth 1000
 % OSPF: Reference bandwidth is changed.
         Please ensure reference bandwidth is consistent across all routers.
-R2(config-router)#
+R2(config)#end
+R2#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R2#clear ip ospf process 
+Reset ALL OSPF processes? [no]: y
+
+R2#
+00:12:48: %OSPF-5-ADJCHG: Process 56, Nbr 1.1.1.1 on GigabitEthernet0/0/1 from FULL to DOWN, Neighbor Down: Adjacency forced to reset
+
+00:12:48: %OSPF-5-ADJCHG: Process 56, Nbr 1.1.1.1 on GigabitEthernet0/0/1 from FULL to DOWN, Neighbor Down: Interface down or detached
+
+00:13:12: %OSPF-5-ADJCHG: Process 56, Nbr 1.1.1.1 on GigabitEthernet0/0/1 from LOADING to FULL, Loading Done
+
+R2#
 ```
 ### Шаг 2. Убедитесь, что оптимизация OSPFv2 реализовалась.
 - a.	Выполните команду show ip ospf interface g0/0/1 на R1 и убедитесь, что приоритет интерфейса установлен равным 50, а временные интервалы — Hello 30, Dead 120, а тип сети по умолчанию — Broadcast
@@ -280,5 +310,21 @@ R1#
 *Стоит обратить внимание что интервал Dead равен 40, а не 120, так как по ходу лабораторной работы у нас небыло задания изменить его. Тем не менее меняется он в режиме конфигурации интерфейса командой "ip ospf dead-interval"*
 - b.	На R1 выполните команду show ip route ospf, чтобы убедиться, что сеть R2 Loopback1 присутствует в таблице маршрутизации. Обратите внимание на разницу в метрике между этим выходным и предыдущим выходным. Также обратите внимание, что маска теперь составляет 24 бита, в отличие от 32 битов, ранее объявленных.
 ```
+R1#show ip route ospf 
+O    192.168.1.0 [110/10] via 10.53.0.2, 00:02:30, GigabitEthernet0/0/1
 
+R1#
 ```
+- c.	Введите команду show ip route ospf на маршрутизаторе R2. Единственная информация о маршруте OSPF должна быть распространяемый по умолчанию маршрут R1.
+```
+R2#show ip route ospf 
+O*E2 0.0.0.0/0 [110/1] via 10.53.0.1, 00:08:18, GigabitEthernet0/0/1
+
+R2#
+```
+- d.	Запустите Ping до адреса интерфейса R1 Loopback 1 из R2. Выполнение команды ping должно быть успешным.
+
+![](./images/lab_10_fig_04.png)
+
+- Почему стоимость OSPF для маршрута по умолчанию отличается от стоимости OSPF в R1 для сети 192.168.1.0/24?
+*Если я верно понял вопрос, то на маршрутизаторе R1 стоимость маршрута до сети 192.168.0.1/24 включает себя стоимость интерфейса в OSPF, в нашем случае 10. В стоимости же маршрута по умолчанию подобной стоимости нет.*
