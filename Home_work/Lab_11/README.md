@@ -582,6 +582,33 @@ R2(config)#
 
 *Маршрутизатор R1*
 ```
+R1(config)#username SSHadmin privilege 15 secret $cisco123!
+R1(config)#ip domain-name ccna-lab.com
+R1(config)#crypto key generate rsa  general-keys modulus 1024
+The name for the keys will be: R1.ccna-lab.com
 
+% The key modulus size is 1024 bits
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+*Mar 10 22:25:59.654: %SSH-5-ENABLED: SSH 1.99 has been enabled
+R1(config)#line vty 0 4
+R1(config-line)#transport input ssh
+R1(config-line)#login local
+R1(config-line)#
 ```
 *Повторяем аналогичную настройку для маршрутизатора R2 и коммутаторов S1 и S2.*
+*Обращаю внимание что в лабораторной работе не указано включение 2 версии протокола ssh. Включается командой "ip ssh version 2".*
+### Шаг 2. Включите защищенные веб-службы с проверкой подлинности на R1.
+- a.	Включите сервер HTTPS на R1.
+- b.	Настройте R1 для проверки подлинности пользователей, пытающихся подключиться к веб-серверу.
+```
+
+```
+## Часть 6. Проверка подключения.
+### Шаг 1. Настройте узлы ПК.
+*Компьютер PC-A*
+
+![](./images/lab_11_fig_03.png)
+
+*Компьютер PC-B*
+
+![](./images/lab_11_fig_04.png)
