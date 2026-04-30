@@ -600,9 +600,25 @@ R1(config-line)#
 ### Шаг 2. Включите защищенные веб-службы с проверкой подлинности на R1.
 - a.	Включите сервер HTTPS на R1.
 - b.	Настройте R1 для проверки подлинности пользователей, пытающихся подключиться к веб-серверу.
+
+*К сожелению в CPT нельзя реализовать подобную настройку, в связи с чем web сервер я добавил в виде отдельного сервера в 20 vlan скоммутированного на 24 порт коммутатора S1 и IP адресом 10.20.0.11*
+*Добавляем настройку на коммутаторе S1*
+```
+S1(config)#interface FastEthernet0/24
+S1(config-if)#switchport access vlan 20
+S1(config-if)#switchport mode access
+S1(config-if)#no shutdown
+
+S1(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet0/24, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/24, changed state to up
+
+S1(config-if)#
 ```
 
-```
+![](./images/lab_11_fig_07.png)
+
 ## Часть 6. Проверка подключения.
 ### Шаг 1. Настройте узлы ПК.
 *Компьютер PC-A*
@@ -628,3 +644,11 @@ R1(config-line)#
 *Компьютер PC-A*
 
 ![](./images/lab_11_fig_05.png)
+
+*Компьютер PC-B*
+
+![](./images/lab_11_fig_06.png)
+
+![](./images/lab_11_fig_07.png)
+
+![](./images/lab_11_fig_08.png)
