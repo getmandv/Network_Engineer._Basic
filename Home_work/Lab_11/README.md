@@ -665,3 +665,5 @@ R1(config-if)#
 ![](./images/lab_11_fig_08.png)
 
 ![](./images/lab_11_fig_09.png)
+
+![](./images/lab_11_fig_10.png)
