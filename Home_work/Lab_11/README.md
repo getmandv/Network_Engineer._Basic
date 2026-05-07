@@ -26,15 +26,15 @@
 |999         |Parking_Lot|SS2: F0/2-4, F0/6-17, F0/19-24, G0/1-2|
 |1000        |Собственная|-                                     |
 ### Задание:
-1. [Часть 1. Создание сети и настройка основных параметров устройства.]()
-2. [Часть 2. Настройка и проверка списков расширенного контроля доступа.]()
-3. [Часть 3. Настройте транки (магистральные каналы).]()
-4. [Часть 4. Настройте маршрутизацию.]()
-5. [Часть 5. Настройте удаленный доступ.]()
-6. [Часть 6. Проверка подключения.]()
-7. [Часть 7. Настройка и проверка списков контроля доступа (ACL).]()
+1. [Часть 1. Создание сети и настройка основных параметров устройства.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-1-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B5%D1%82%D0%B8-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D1%85-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%BE%D0%B2-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%B0)
+2. [Часть 2. Настройка и проверка списков расширенного контроля доступа.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-2-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D1%81%D0%B5%D1%82%D0%B5%D0%B9-vlan-%D0%BD%D0%B0-%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D1%82%D0%B0%D1%82%D0%BE%D1%80%D0%B0%D1%85)
+3. [Часть 3. Настройте транки (магистральные каналы).](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-3-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%82%D0%B5-%D1%82%D1%80%D0%B0%D0%BD%D0%BA%D0%B8-%D0%BC%D0%B0%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%D1%8B)
+4. [Часть 4. Настройте маршрутизацию.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-4-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%82%D0%B5-%D0%BC%D0%B0%D1%80%D1%88%D1%80%D1%83%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8E)
+5. [Часть 5. Настройте удаленный доступ.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-5-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%82%D0%B5-%D1%83%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF)
+6. [Часть 6. Проверка подключения.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-6-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D1%8F)
+7. [Часть 7. Настройка и проверка списков контроля доступа (ACL).](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-7-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%B8-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2-%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%BE%D0%BB%D1%8F-%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0-acl)
 8. Файлы Cisco Packet Tracer
-   - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_06/pkt/lab_06.pkt)
+   - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/pkt/lab_11.pkt)
 ## Часть 1. Создание сети и настройка основных параметров устройства.
 ###  Шаг 1. Создайте сеть согласно топологии.
 ![](./images/lab_11_fig_02.png)
