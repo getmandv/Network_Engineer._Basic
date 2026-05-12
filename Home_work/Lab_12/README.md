@@ -65,8 +65,6 @@ R2(config-if)#
 %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback1, changed state to up
 ip address 209.165.200.1 255.255.255.224
 R2(config-if)#exit
-R2(config)#interface GigabitEthernet0/0
-%Invalid interface type and number
 R2(config)#interface GigabitEthernet 0/0/0
 R2(config-if)#ip address 209.165.200.225 255.255.255.248
 R2(config-if)#exit
