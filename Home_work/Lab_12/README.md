@@ -31,40 +31,56 @@
 - e.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
 - f.	Зашифруйте открытые пароли.
 - g.	Создайте баннер с предупреждением о запрете несанкционированного доступа к устройству.
-- h.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+- h.	Настройте IP-адресации интерфейса, как указано в таблице выше.
+- i.	Настройте маршрут по умолчанию. от R2 до  R1.
+- j.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
-*Маршрутизатор R1*
+*Маршрутизатор R2*
 ```
 Router>en
 Router#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
-Router(config)#hostname R1
-R1(config)#no ip domain-lookup
-R1(config)#enable secret class
-R1(config)#line con 0
-R1(config-line)#password cisco
-R1(config-line)#login
-R1(config-line)#exit
-R1(config)#line vty 0 15
-R1(config-line)#password cisco
-R1(config-line)#login
-R1(config-line)#exit
-R1(config)#service password-encryption
-R1(config)#banner motd #
+Router(config)#hostname R2
+R2(config)#no ip domain-lookup
+R2(config)#enable secret class
+R2(config)#line con 0
+R2(config-line)#password cisco
+R2(config-line)#login
+R2(config-line)#exit
+R2(config)#line vty 0 15
+R2(config-line)#password cisco
+R2(config-line)#login
+R2(config-line)#exit
+R2(config)#service password-encryption
+R2(config)#banner motd #
 Enter TEXT message.  End with the character '#'.
-This is R1 router.
+This is R2 router.
 Authorized Users Only!#
 
-R1(config)#exit
-R1#
+R2(config)#interface Loopback1
+
+R2(config-if)#
+%LINK-5-CHANGED: Interface Loopback1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback1, changed state to up
+ip address 209.165.200.1 255.255.255.224
+R2(config-if)#exit
+R2(config)#interface GigabitEthernet0/0
+%Invalid interface type and number
+R2(config)#interface GigabitEthernet 0/0/0
+R2(config-if)#ip address 209.165.200.225 255.255.255.248
+R2(config-if)#exit
+R2(config)#ip route 0.0.0.0 0.0.0.0 209.165.200.230
+R2(config)#end
+R2#
 %SYS-5-CONFIG_I: Configured from console by console
 
-R1#wr
+R2#wr
 Building configuration...
 [OK]
-R1#
+R2#
 ```
-*Повторяем аналогичную настройку для маршрутизатора R2.*
+*Повторяем аналогичную настройку для маршрутизатора R1, используюя IP-адресацию для R1 и не выполнаяя пунк i.*
 ###  Шаг 3. Настройте базовые параметры каждого коммутатора.
 - a.	Присвойте коммутатору имя устройства.
 - b.	Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
