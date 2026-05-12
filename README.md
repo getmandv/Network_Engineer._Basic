@@ -10,3 +10,4 @@
 - [09. Конфигурация безопасности коммутатора.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_09/README.md)
 - [10. Настройка протокола OSPFv2 для одной области.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_10/README.md)
 - [11. Настройка и проверка расширенных списков контроля доступа.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_11/README.md)
+- [12. Настройка NAT для IPv4.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_12/README.md)
