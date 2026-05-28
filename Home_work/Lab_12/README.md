@@ -14,10 +14,10 @@
 |PC-A        |NIC        |192.168.1.2    |255.255.255.0  |
 |PC-B        |NIC        |192.168.1.3    |255.255.255.0  |
 ### Задание:
-1. [Часть 1. Создание сети и настройка основных параметров устройства.]()
-2. [Часть 2. Настройка и проверка NAT для IPv4.]()
-3. [Часть 3. Настройка и проверка PAT для IPv4.]()
-4. [Часть 4. Настройка и проверка статического NAT для IPv4.]()
+1. [Часть 1. Создание сети и настройка основных параметров устройства.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_12/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-1-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B5%D1%82%D0%B8-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D1%85-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%BE%D0%B2-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%B0)
+2. [Часть 2. Настройка и проверка NAT для IPv4.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_12/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-2-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%B8-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-nat-%D0%B4%D0%BB%D1%8F-ipv4)
+3. [Часть 3. Настройка и проверка PAT для IPv4.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_12/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-3-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%B8-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-pat-%D0%B4%D0%BB%D1%8F-ipv4)
+4. [Часть 4. Настройка и проверка статического NAT для IPv4.](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_12/README.md#%D1%87%D0%B0%D1%81%D1%82%D1%8C-4-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%B8-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-nat-%D0%B4%D0%BB%D1%8F-ipv4)
 5. Файлы Cisco Packet Tracer
    - [Основной файл домашнего задания](https://github.com/getmandv/Network_Engineer._Basic/blob/main/Home_work/Lab_12/pkt/lab_12.pkt)
 ## Часть 1. Создание сети и настройка основных параметров устройства.
